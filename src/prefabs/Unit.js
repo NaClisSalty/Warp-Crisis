@@ -1,3 +1,5 @@
 class Unit extends Phaser.GameObjects.Sprite{
-    constructor()
+    constructor(scene, x, y, texture, frame){
+        super(scene, x, y, texture, frame);
+    }
 }
