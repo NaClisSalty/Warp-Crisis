@@ -2,6 +2,83 @@
 <map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="5">
  <tileset firstgid="1" name="warp_tileMap" tilewidth="32" tileheight="32" tilecount="12" columns="3">
   <image source="Assets/warpTiles.png" width="98" height="131"/>
+  <tile id="0">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="50"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="isPassable" type="bool" value="false"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="50"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="50"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="isPassable" type="bool" value="false"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="isPassable" type="bool" value="false"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="50"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="2"/>
+    <property name="warpLevel" type="int" value="100"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="2"/>
+    <property name="warpLevel" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="2"/>
+    <property name="warpLevel" type="int" value="50"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="isPassable" type="bool" value="false"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="50"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="1"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="isPassable" type="bool" value="true"/>
+    <property name="movementCost" type="float" value="1"/>
+    <property name="warpLevel" type="int" value="1"/>
+   </properties>
+  </tile>
  </tileset>
  <layer id="3" name="Background" width="20" height="20">
   <data encoding="csv">
@@ -76,12 +153,6 @@
 </data>
  </layer>
  <objectgroup id="4" name="Object">
-  <properties>
-   <property name="MovementCost" value=""/>
-   <property name="Passable" value=""/>
-   <property name="combatBonus" value=""/>
-   <property name="warpLevel" value=""/>
-  </properties>
   <object id="1" x="596.182" y="591.636">
    <point/>
   </object>
