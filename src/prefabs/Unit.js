@@ -13,7 +13,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         if(this.tile == target)
             return;
         //If the target is impassable, also do nothing
-        if(!target.passable)
+        if(!target.isPassable)
             return;
         
         //Also, if we're out of moves then we shouldn't be moving
@@ -86,7 +86,7 @@ class Unit extends Phaser.GameObjects.Sprite{
             //For loop is a bit weird to deal with map edges
             for(i = Math.max(currentTile.x-1, 0); i <= currentTile.x +1 && i < map.width; i++){
                 for(j = Math.max(currentTile.y-1, 0); j <= currentTile.y +1 && j < map.height; j++){
-                    if(map.getTileAt(i, j) != currentTile)
+                    if(map.getTileAt(i, j) != currentTile && map.getTileAt(i,j).isPassable)
                         adjacentTiles.push(map.getTileAt(i, j));
                 }
             }
