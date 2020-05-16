@@ -76,6 +76,12 @@
 </data>
  </layer>
  <objectgroup id="4" name="Object">
+  <properties>
+   <property name="MovementCost" value=""/>
+   <property name="Passable" value=""/>
+   <property name="combatBonus" value=""/>
+   <property name="warpLevel" value=""/>
+  </properties>
   <object id="1" x="596.182" y="591.636">
    <point/>
   </object>
