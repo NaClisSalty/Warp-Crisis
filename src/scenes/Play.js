@@ -40,7 +40,6 @@ class Play extends Phaser.Scene {
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         //give the player some units
-<<<<<<< HEAD
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18));
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(2, 18));
 
@@ -50,7 +49,7 @@ class Play extends Phaser.Scene {
         let statConfig1 = {
             fontFamily: 'Helvetica',
             fontSize: '48px',
-            backgroundColor: 'Black',
+            //backgroundColor: 'Black',
             color: 'Black',
             align: 'right',
             padding: {
@@ -65,7 +64,7 @@ class Play extends Phaser.Scene {
         let statConfig2 = {
             fontFamily: 'Helvetica',
             fontSize: '24px',
-            backgroundColor: 'Black',
+            //backgroundColor: 'Black',
             color: 'Black',
             align: 'right',
             padding: {
@@ -77,22 +76,20 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
         
-        this.add.text(800, 20, 'Stats', statConfig1);
-        this.add.text(720, 60, 'Movement: X/X', statConfig1);
-        this.add.text(720, 80, 'Health: X/X', statConfig1);
-        this.add.text(720, 100, 'Power: X', statConfig1);
-        this.add.text(720, 120, 'Distortion X/X', statConfig1);
+        this.add.text(740, 20, 'Stats', statConfig1);
+        this.add.text(720, 100, 'Movement: X/X', statConfig2);
+        this.add.text(720, 140, 'Health: X/X', statConfig2);
+        this.add.text(720, 180, 'Power: X', statConfig2);
+        this.add.text(720, 220, 'Distortion X/X', statConfig2);
 
 
-=======
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
->>>>>>> 498f9ef23d667eaab8d79a41934069b4c17ae69c
         
     }
 
     update() {
-
+       
     }
     _onFocus() {
         this.paused = false;
