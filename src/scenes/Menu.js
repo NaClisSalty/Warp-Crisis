@@ -21,6 +21,8 @@ class Menu extends Phaser.Scene {
             this.scene.start("playScene");
         });
 
+
+        //music implementation
         let folk = 0;
 
         this.folk = this.sound.add('folk', {loop: true});
