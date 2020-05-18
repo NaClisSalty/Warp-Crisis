@@ -77,7 +77,6 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         })
         this.spawns.forEach(element => {
-            console.log(element)
             if(element.index == 15)
                 this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
             else if (element.index == 14)

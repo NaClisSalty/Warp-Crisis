@@ -29,6 +29,7 @@ class Unit extends Phaser.GameObjects.Sprite{
     //Moves to a target tile
     move(target){
         console.log("movement happened")
+        console.log(target)
         //To save time, deal with the trivial cases first
         //If we're already at the target, do nothing
         if(this.tile == target)
