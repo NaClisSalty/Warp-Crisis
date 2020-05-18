@@ -97,8 +97,8 @@ class Play extends Phaser.Scene {
         //onclick events for players
         this.input.on('pointerdown', (pointer)=>{
             if(this.selected != null && pointer.rightButtonDown())
-                this.selected.move(this.map.worldToTileXY(pointer.position.x, pointer.position.y, 
-                        true, new Phaser.Math.Vector2(), this.cameras.main,  this.terrainLayer));
+                this.selected.move(this.map.getTileAtWorldXY(pointer.position.x, pointer.position.y,
+                    this.cameras.main,  this.terrainLayer));
         })
     }
 
