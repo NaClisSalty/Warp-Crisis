@@ -37,6 +37,47 @@ class Play extends Phaser.Scene {
         //give the player some units
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18));
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(2, 18));
+
+        //statsheet implementation
+        
+        //menu display
+        let statConfig1 = {
+            fontFamily: 'Helvetica',
+            fontSize: '48px',
+            backgroundColor: 'Black',
+            color: 'Black',
+            align: 'right',
+            padding: {
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10,
+            },
+            fixedWidth: 0
+        }
+
+        let statConfig2 = {
+            fontFamily: 'Helvetica',
+            fontSize: '24px',
+            backgroundColor: 'Black',
+            color: 'Black',
+            align: 'right',
+            padding: {
+                top: 10,
+                bottom: 10,
+                left: 10,
+                right: 10,
+            },
+            fixedWidth: 0
+        }
+        
+        this.add.text(800, 20, 'Stats', statConfig1);
+        this.add.text(720, 60, 'Movement: X/X', statConfig1);
+        this.add.text(720, 80, 'Health: X/X', statConfig1);
+        this.add.text(720, 100, 'Power: X', statConfig1);
+        this.add.text(720, 120, 'Distortion X/X', statConfig1);
+
+
         
     }
 
