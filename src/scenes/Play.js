@@ -152,7 +152,11 @@ class Play extends Phaser.Scene {
 
     //Handles ending the turn
     endTurn(){
-        this.allies.getChildren().forEach((unit)=>{unit.remainingMovement = unit.movement});
+        this.allies.getChildren().forEach((unit)=>{
+            if(unit.remainingMovement == unit.movement)
+                unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
+            unit.remainingMovement = unit.movement;
+        });
         this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
         if(this.displayed!= null)
             this.setStatWindow(this.displayed)
