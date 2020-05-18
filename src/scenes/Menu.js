@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
 
         let folk = 0;
 
-        this.folk = this.sound.add('mufolksic1', {loop: true});
+        this.folk = this.sound.add('folk', {loop: true});
         //music1.setLoop(true);
         this.folk.play();
         this.folk.setVolume(.2);
