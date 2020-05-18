@@ -20,7 +20,14 @@ class Menu extends Phaser.Scene {
             this.enterButtonHoverState();
             this.scene.start("playScene");
         });
-        this.play.folk();
+
+        let folk = 0;
+
+        this.folk = this.sound.add('mufolksic1', {loop: true});
+        //music1.setLoop(true);
+        this.folk.play();
+        this.folk.setVolume(.2);
+
     }
 
     update() {  
