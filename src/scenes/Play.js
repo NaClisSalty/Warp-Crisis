@@ -91,6 +91,8 @@ class Play extends Phaser.Scene {
         //define mouse
         //map is 20x20
         game.input.mouse.capture = true;
+        //stop those pesky right clicks
+        game.canvas.oncontextmenu = function (e) {e.preventDefault();};
 
         //onclick events for players
         this.input.on('pointerdown', (pointer)=>{
