@@ -203,8 +203,15 @@ class Unit extends Phaser.GameObjects.Sprite{
     }
     //Runs to fight whatever unit is opponent
     combat(opponent){
-        this.currentHealth -= opponent.strength * opponent.currentHealth;
-        opponent.currentHealth -= this.strength * this.currentHealth;
+        //Need to store damage separately to not affect calculations
+        let healthChange = opponent.strength * opponent.currentHealth / opponent.health/ 
+                (this.strength * this.currentHealth/this.health) * 25;
+        opponent.currentHealth -= this.strength * this.currentHealth / this.health/ 
+            (opponent.strength * opponent.currentHealth/opponent.health) * 25;
+
+        this.currentHealth -= healthChange
+        this.currentHealth = Math.round(this.currentHealth);
+        opponent.currentHealth = Math.round(opponent.currentHealth)
         opponent.checkDeath()
         this.checkDeath()
     }
