@@ -8,9 +8,9 @@ class Play extends Phaser.Scene {
         this.load.image("tiles", "warpTiles.png");
         this.load.tilemapTiledJSON("mapjson", "tileMap_v01..json")
 
-        this.load.image("tempWizard", "Wizard_hat.png")
-        this.load.image("enemyArt", "definetlyTheFinalLastVersionOfCharacterArtWeAreGonnaUse.png");
-        this.load.image("tempTank", "tank.png")
+        this.load.image("tempWizard", "wizard_character.png")
+        this.load.image("enemyArt", "enemy.png");
+        this.load.image("tempTank", "robo_character.png")
     } 
 
     create() {
@@ -24,17 +24,23 @@ class Play extends Phaser.Scene {
         //make the layers
         this.backgroundLayer = this.map.createStaticLayer("Background", this.tileset, 0,0);
         this.terrainLayer = this.map.createStaticLayer("Map", this.tileset, 0,0);
+        this.enemyLayer = this.map.createStaticLayer("Enimies", this.tileset, 0,0);
 
-
-        //Make all the enemies
-        this.enemySpawns = this.map.filterTiles(tile => {tile.id == 11}, 
-                    this, 0, 0, this.map.width, this.map.height, {}, "Enimies");
-        this.enemies = new Array()
-        this.enemySpawns.forEach(element => {
-            this.enemies.push(new Enemy(this, 0, 0, enemyArt, 0, 2, element))
+        //Make all the enemies/allies
+        this.spawns = this.map.filterTiles(tile => true,
+             this, 0, 0, this.map.width, this.map.height, {isNotEmpty:true}, this.enemyLayer);
+        this.enemies = this.add.group({
+            runChildUpdate: true
+        })
+        this.spawns.forEach(element => {
+            console.log(element)
+            this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
         });
 
+        //Don't need to show the enemy's spawns
+        this.enemyLayer.visible = false;
         //give the player some units
+<<<<<<< HEAD
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18));
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(2, 18));
 
@@ -78,6 +84,10 @@ class Play extends Phaser.Scene {
         this.add.text(720, 120, 'Distortion X/X', statConfig1);
 
 
+=======
+        this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
+        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
+>>>>>>> 498f9ef23d667eaab8d79a41934069b4c17ae69c
         
     }
 
