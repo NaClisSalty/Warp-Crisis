@@ -24,6 +24,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         });
         //this.on('pointerDown', scene.setStatWindow(this));
         //console.log("made unit at "+ this.x + " " + this.y)
+        tile.occupant = this;
     }
 
     //Moves to a target tile
@@ -39,6 +40,21 @@ class Unit extends Phaser.GameObjects.Sprite{
         if(!target.properties.isPassable)
             return;
         console.log("was passable")
+
+        //Check to see if anyone is there
+        if(target.occupant != undefined){
+            //if it's an enemy
+            if(typeof target.occupant == "Enemy"){
+                //Fight it
+                this.combat(target.occupant)
+                //If it's not dead, stop moving
+                if(target.occupant != undefined)
+                    return;
+            }
+            //if it's not an enemy, stop moving
+            else
+                return;
+        }
         //Also, if we're out of moves then we shouldn't be moving
         if(this.remainingMovement == 0)
             return;
@@ -182,5 +198,12 @@ class Unit extends Phaser.GameObjects.Sprite{
         });
         set.delete(lowestValue);
         return(lowestValue)
+    }
+    //Runs to fight whatever unit is opponent
+    combat(opponent){
+        this.currentHealth -= opponent.strength * opponent.currentHealth;
+        opponent.currentHealth -= this.strength * this.currentHealth;
+        opponent.checkDeath()
+        this.checkDeath()
     }
 }
