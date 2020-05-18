@@ -3,6 +3,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         super(scene, x, y, texture, frame);
         //console.log(tile)
         scene.add.existing(this);
+        this.name = texture;
         this.movement = movement;
         this.tile = tile;
         this.remainingMovement = movement;
@@ -15,8 +16,13 @@ class Unit extends Phaser.GameObjects.Sprite{
             draggable: false,
             useHandCursor: false
         });
-        this.on('pointerover', function (pointer){scene.setStatWindow(this)})
-        this.on('pointerDown', scene.setStatWindow(this));
+        this.on('pointerover', function(pointer){scene.setStatWindow(this)});
+        this.on('pointerout', function(pointer){
+            if(scene.selected) {
+                scene.setStatWindow(scene.selected)
+            }
+        });
+        //this.on('pointerDown', scene.setStatWindow(this));
         //console.log("made unit at "+ this.x + " " + this.y)
     }
 

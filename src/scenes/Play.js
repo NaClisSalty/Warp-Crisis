@@ -26,30 +26,7 @@ class Play extends Phaser.Scene {
         this.terrainLayer = this.map.createStaticLayer("Map", this.tileset, 0,0);
         this.enemyLayer = this.map.createStaticLayer("Enimies", this.tileset, 0,0);
 
-        //Make all the enemies/allies
-        this.spawns = this.map.filterTiles(tile => true,
-             this, 0, 0, this.map.width, this.map.height, {isNotEmpty:true}, this.enemyLayer);
-        this.enemies = this.add.group({
-            runChildUpdate: true
-        })
-        this.allies = this.add.group({
-            runChildUpdate: true
-        })
-        this.spawns.forEach(element => {
-            console.log(element)
-            if(element.index == 15)
-                this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
-            else if (element.index == 14)
-                this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, element, 3, 50))
-            else if (element.index == 13)
-                this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, element, 2, 200))
-        });
-
-        //Don't need to show the enemy's spawns
-        this.enemyLayer.visible = false;
-
         //statsheet implementation
-        
         //menu display
         let statConfig1 = {
             fontFamily: 'Helvetica',
@@ -80,15 +57,38 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 0
         }
-        
-        this.statText = this.add.text(740, 20, 'Stats', statConfig1);
+        //stattext
+        this.nameText = this.add.text(800, 20, 'Name', statConfig1).setOrigin(.5,0);
         this.moveText = this.add.text(720, 100, 'Movement: X/X', statConfig2);
         this.healthText = this.add.text(720, 140, 'Health: X/X', statConfig2);
         this.powerText = this.add.text(720, 180, 'Power: X', statConfig2);
         this.distText = this.add.text(720, 220, 'Distortion X/X', statConfig2);
-        
+
         //Set the selected object to null initially since the player shouldn't have anything at the start
         this.selected = null;
+
+        //Make all the enemies/allies
+        this.spawns = this.map.filterTiles(tile => true,
+             this, 0, 0, this.map.width, this.map.height, {isNotEmpty:true}, this.enemyLayer);
+        this.enemies = this.add.group({
+            runChildUpdate: true
+        })
+        this.allies = this.add.group({
+            runChildUpdate: true
+        })
+        this.spawns.forEach(element => {
+            console.log(element)
+            if(element.index == 15)
+                this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
+            else if (element.index == 14)
+                this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, element, 3, 50))
+            else if (element.index == 13)
+                this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, element, 2, 200))
+        });
+
+        //Don't need to show the enemy's spawns
+        this.enemyLayer.visible = false;
+        
         //define mouse
         //map is 20x20
         game.input.mouse.capture = true;
@@ -113,6 +113,7 @@ class Play extends Phaser.Scene {
         return(Math.abs(tile.x-otherTile.x)<= 1 && Math.abs(tile.y-otherTile.y)<= 1);
     }
     setStatWindow(unit) {
+        this.nameText.text = unit.name;
         this.moveText.text = "Movement: "+unit.movement+"/"+unit.remainingMovement;
         this.healthText.text = "Health: "+unit.health+"/"+unit.currentHealth;
         this.powerText.text = "Power: "+unit.strength;
