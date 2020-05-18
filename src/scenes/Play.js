@@ -32,16 +32,21 @@ class Play extends Phaser.Scene {
         this.enemies = this.add.group({
             runChildUpdate: true
         })
+        this.allies = this.add.group({
+            runChildUpdate: true
+        })
         this.spawns.forEach(element => {
             console.log(element)
-            this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
+            if(element.index == 15)
+                this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
+            else if (element.index == 14)
+                this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, element, 3, 50))
+            else if (element.index == 13)
+                this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, element, 2, 200))
         });
 
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
-        //give the player some units
-        this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
-        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
 
         //statsheet implementation
         
