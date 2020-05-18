@@ -9,7 +9,7 @@ class Play extends Phaser.Scene {
         this.load.tilemapTiledJSON("mapjson", "tileMap_v02.json")
 
         this.load.image("tempWizard", "wizard_character.png")
-        this.load.image("enemyArt", "enemy.png");
+        this.load.image("enemyWarpsoul", "enemy.png");
         this.load.image("tempTank", "robo_character.png")
     } 
 
@@ -78,7 +78,7 @@ class Play extends Phaser.Scene {
         })
         this.spawns.forEach(element => {
             if(element.index == 15)
-                this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element, 2, 50))
+                this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, element, 2, 50))
             else if (element.index == 14)
                 this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, element, 3, 50))
             else if (element.index == 13)
@@ -102,6 +102,17 @@ class Play extends Phaser.Scene {
                     this.cameras.main,  this.terrainLayer));
                 }
         })
+
+        //End turn button
+        this.clickButton = this.add.text(800, 600, 'End Turn', {fill: '#d437bc'})
+        .setInteractive({ useHandCursor: true })
+        .on('pointerover', () => this.enterButtonHoverState())
+        .on('pointerout', () => this.enterButtonRestState())
+        .on('pointerdown', () => this.enterButtonActiveState())
+        .on('pointerup', () => {
+            this.enterButtonHoverState();
+            this.endTurn()
+        });
     }
 
     update() {
@@ -119,6 +130,7 @@ class Play extends Phaser.Scene {
     checkAdjacency(tile, otherTile){
         return(Math.abs(tile.x-otherTile.x)<= 1 && Math.abs(tile.y-otherTile.y)<= 1);
     }
+    //Sets stats to match the selected or moused-over unit
     setStatWindow(unit) {
         this.nameText.text = unit.name;
         this.moveText.text = "Movement: "+unit.movement+"/"+unit.remainingMovement;
@@ -126,4 +138,21 @@ class Play extends Phaser.Scene {
         this.powerText.text = "Power: "+unit.strength;
         this.distText.text = "Distortion > 9000";
     }
+
+    //Resets the displayed stats to what they were at the start of the game if there's no selected unit
+    resetStatDisplay(){
+        this.nameText.text = "Name"
+        this.moveText.text = 'Movement: X/X';
+        this.healthText.text =  'Health: X/X';
+        this.powerText.text =  'Power: X'
+        this.distText.text ="Distortion X/X";
+
+    }
+
+    //Handles ending the turn
+    endTurn(){
+        this.allies.getChildren().forEach((unit)=>{unit.remainingMovement = unit.movement});
+        this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
+    }
+
 }

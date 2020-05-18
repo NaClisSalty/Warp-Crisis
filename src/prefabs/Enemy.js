@@ -9,4 +9,12 @@ class Enemy extends Unit{
         if(this.currentHealth <= 0)
             this.scene.enemies.remove(this, true, true);
     }
+
+    //Prototype combat behaviour = only attack adjacent units
+    attackAdjacent(){
+        this.scene.allies.getChildren().forEach((ally)=> {
+            if(this.scene.checkAdjacency(this.tile, ally.tile))
+                this.combat(ally)
+        })
+    }
 }

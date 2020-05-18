@@ -18,9 +18,11 @@ class Unit extends Phaser.GameObjects.Sprite{
         });
         this.on('pointerover', function(pointer){scene.setStatWindow(this)});
         this.on('pointerout', function(pointer){
-            if(scene.selected) {
+            if(scene.selected != null) {
                 scene.setStatWindow(scene.selected)
             }
+            else
+                scene.resetStatDisplay()
         });
         //this.on('pointerDown', scene.setStatWindow(this));
         //console.log("made unit at "+ this.x + " " + this.y)

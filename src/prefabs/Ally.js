@@ -9,7 +9,12 @@ class Ally extends Unit{
 
     //checks if this is dead and if so, removed from the player's units
     checkDeath(){
-        if(this.currentHealth <= 0)
+        if(this.currentHealth <= 0){
+            if(this.scene.selected == this){
+                this.scene.selected = null
+                this.scene.resetStatDisplay()
+            }
             this.scene.allies.remove(this, true, true);
+        }
     }
 }
