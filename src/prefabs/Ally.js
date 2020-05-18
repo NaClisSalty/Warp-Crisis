@@ -4,6 +4,7 @@ class Ally extends Unit{
         this.name = texture.slice(4);
         this.on('pointerdown', function(pointer){
             scene.selected = this;
+            scene.displayed = this;
         });
     }
 
@@ -14,7 +15,12 @@ class Ally extends Unit{
                 this.scene.selected = null
                 this.scene.resetStatDisplay()
             }
+            this.tile.properties.occupant = undefined;
             this.scene.allies.remove(this, true, true);
         }
+    }
+    //Simple helper function because JS's type checking is apparently garbage
+    isAlly(){
+        true
     }
 }

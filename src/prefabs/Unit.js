@@ -16,41 +16,45 @@ class Unit extends Phaser.GameObjects.Sprite{
             draggable: false,
             useHandCursor: false
         });
-        this.on('pointerover', function(pointer){scene.setStatWindow(this)});
+        this.on('pointerover', function(pointer){scene.setStatWindow(this); scene.displayed = this;});
         this.on('pointerout', function(pointer){
             if(scene.selected != null) {
                 scene.setStatWindow(scene.selected)
+                scene.displayed = scene.selected;
             }
-            else
+            else{
                 scene.resetStatDisplay()
+                scene.displayed = null
+            }
         });
-        //this.on('pointerDown', scene.setStatWindow(this));
-        //console.log("made unit at "+ this.x + " " + this.y)
-        tile.occupant = this;
+        this.tile.properties.occupant = this;
+        console.log(this.tile.properties.occupant)
     }
 
     //Moves to a target tile
     move(target){
-        console.log("movement happened")
         console.log(target)
+        console.log(this.tile)
+        console.log(this.tile.properties.occupant)
         //To save time, deal with the trivial cases first
         //If we're already at the target, do nothing
         if(this.tile == target)
             return;
         //If the target is impassable, also do nothing
-        console.log(target.properties.isPassable);
         if(!target.properties.isPassable)
             return;
-        console.log("was passable")
 
         //Check to see if anyone is there
-        if(target.occupant != undefined){
+        //Will use occupant code eventually, but that is currently broken
+        if(target.properties.occupant != undefined){
             //if it's an enemy
-            if(typeof target.occupant == "Enemy"){
+            console.log("found something")
+            console.log(target.properties.occupant.isAlly())
+            if(!target.properties.occupant.isAlly()){
                 //Fight it
-                this.combat(target.occupant)
+                this.combat(target.properties.occupant)
                 //If it's not dead, stop moving
-                if(target.occupant != undefined)
+                if(target.properties.occupant != undefined)
                     return;
             }
             //if it's not an enemy, stop moving
@@ -176,7 +180,9 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Helper function for moving tiles
     changeTile(destination){
+        this.tile.properties.occupant = undefined
         this.tile = destination;
+        this.tile.properties.occupant = this
         this.x = this.scene.map.tileToWorldX(destination.x) + destination.width/2;
         this.y = this.scene.map.tileToWorldY(destination.y) + destination.width/2;
         console.log("moved to " + destination.x + " " + destination.y);

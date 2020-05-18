@@ -66,7 +66,8 @@ class Play extends Phaser.Scene {
 
         //Set the selected object to null initially since the player shouldn't have anything at the start
         this.selected = null;
-
+        //Also track the currently displayed character
+        this.displayed = null
         //Make all the enemies/allies
         this.spawns = this.map.filterTiles(tile => true,
              this, 0, 0, this.map.width, this.map.height, {isNotEmpty:true}, this.enemyLayer);
@@ -77,12 +78,16 @@ class Play extends Phaser.Scene {
             runChildUpdate: true
         })
         this.spawns.forEach(element => {
+            //Need to get the tiles for the actually important layer when spawning
             if(element.index == 15)
-                this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, element, 2, 50))
+                this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, 
+                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50))
             else if (element.index == 14)
-                this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, element, 3, 50))
+                this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, 
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50))
             else if (element.index == 13)
-                this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, element, 2, 200))
+                this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, 
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200))
         });
 
         //Don't need to show the enemy's spawns
@@ -149,8 +154,8 @@ class Play extends Phaser.Scene {
     endTurn(){
         this.allies.getChildren().forEach((unit)=>{unit.remainingMovement = unit.movement});
         this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
-        if(this.selected!= null)
-            this.setStatWindow(this.selected)
+        if(this.displayed!= null)
+            this.setStatWindow(this.displayed)
     }
 
 }

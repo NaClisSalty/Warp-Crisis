@@ -6,8 +6,10 @@ class Enemy extends Unit{
 
     //checks if this is dead and if so, removed from the enemy units
     checkDeath(){
-        if(this.currentHealth <= 0)
+        if(this.currentHealth <= 0){
+            this.tile.properties.occupant = undefined;
             this.scene.enemies.remove(this, true, true);
+        }
     }
 
     //Prototype combat behaviour = only attack adjacent units
@@ -17,5 +19,9 @@ class Enemy extends Unit{
             if(this.scene != undefined && this.scene.checkAdjacency(this.tile, ally.tile))
                 this.combat(ally)
         })
+    }
+    //Simple helper function because JS's type checking is apparently garbage
+    isAlly(){
+        false
     }
 }
