@@ -87,7 +87,8 @@ class Play extends Phaser.Scene {
         this.add.text(720, 180, 'Power: X', statConfig2);
         this.add.text(720, 220, 'Distortion X/X', statConfig2);
         
-        
+        //Set the selected object to null initially since the player shouldn't have anything at the start
+        this.selected = null;
         
     }
 
