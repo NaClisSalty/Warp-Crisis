@@ -94,6 +94,7 @@ class Play extends Phaser.Scene {
         game.input.mouse.capture = true;
 
         //onclick events for players
+        //this.input.on('pointerdown', (pointer)=>{})
     }
 
     update() {
