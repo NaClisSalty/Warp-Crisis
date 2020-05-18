@@ -6,7 +6,7 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.path = './Assets/'
         this.load.image("tiles", "warpTiles.png");
-        this.load.tilemapTiledJSON("mapjson", "tileMap_v01..json")
+        this.load.tilemapTiledJSON("mapjson", "tileMap_v02.json")
 
         this.load.image("tempWizard", "wizard_character.png")
         this.load.image("enemyArt", "enemy.png");
@@ -40,8 +40,13 @@ class Play extends Phaser.Scene {
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         //give the player some units
+<<<<<<< HEAD
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18));
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(2, 18));
+=======
+        this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
+        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
+>>>>>>> db1befa65b7eb5a9a5682859a3d2eb437eff57ff
 
         //statsheet implementation
         
@@ -85,6 +90,8 @@ class Play extends Phaser.Scene {
 
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
+        
+        
         
     }
 
