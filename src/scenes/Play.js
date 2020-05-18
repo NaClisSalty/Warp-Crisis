@@ -106,11 +106,7 @@ class Play extends Phaser.Scene {
         //End turn button
         this.clickButton = this.add.text(800, 600, 'End Turn', {fill: '#d437bc'})
         .setInteractive({ useHandCursor: true })
-        .on('pointerover', () => this.enterButtonHoverState())
-        .on('pointerout', () => this.enterButtonRestState())
-        .on('pointerdown', () => this.enterButtonActiveState())
-        .on('pointerup', () => {
-            this.enterButtonHoverState();
+        .on('pointerdown', () => {
             this.endTurn()
         });
     }
@@ -133,8 +129,8 @@ class Play extends Phaser.Scene {
     //Sets stats to match the selected or moused-over unit
     setStatWindow(unit) {
         this.nameText.text = unit.name;
-        this.moveText.text = "Movement: "+unit.movement+"/"+unit.remainingMovement;
-        this.healthText.text = "Health: "+unit.health+"/"+unit.currentHealth;
+        this.moveText.text = "Movement: "+unit.remainingMovement+"/"+unit.movement;
+        this.healthText.text = "Health: "+unit.currentHealth+"/"+unit.health;
         this.powerText.text = "Power: "+unit.strength;
         this.distText.text = "Distortion > 9000";
     }
@@ -153,6 +149,8 @@ class Play extends Phaser.Scene {
     endTurn(){
         this.allies.getChildren().forEach((unit)=>{unit.remainingMovement = unit.movement});
         this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
+        if(this.selected!= null)
+            this.setStatWindow(this.selected)
     }
 
 }

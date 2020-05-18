@@ -13,7 +13,8 @@ class Enemy extends Unit{
     //Prototype combat behaviour = only attack adjacent units
     attackAdjacent(){
         this.scene.allies.getChildren().forEach((ally)=> {
-            if(this.scene.checkAdjacency(this.tile, ally.tile))
+            //Need to check that it's still alive before continuing fighting
+            if(this.scene != undefined && this.scene.checkAdjacency(this.tile, ally.tile))
                 this.combat(ally)
         })
     }
