@@ -21,6 +21,12 @@ class Menu extends Phaser.Scene {
             this.scene.start("playScene");
         });
 
+        this.add.text(centerX, centerY-140, "Warp Crisis", {fontSize: 24}).setOrigin(0.5)
+        this.add.text(centerX, centerY-110, "Left click to select your units", {fontSize: 18}).setOrigin(0.5)
+        this.add.text(centerX, centerY-80, "Right click to move and attack", {fontSize: 18}).setOrigin(0.5)
+        this.add.text(centerX, centerY-50, "End turn to recover movement points, or health if you didn't move", {fontSize: 18}).setOrigin(0.5)
+        this.add.text(centerX, centerY-20, "Defeat all enemies", {fontSize: 18}).setOrigin(0.5)
+
 
         //music implementation
         let folk = 0;
