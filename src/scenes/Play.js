@@ -94,7 +94,11 @@ class Play extends Phaser.Scene {
         game.input.mouse.capture = true;
 
         //onclick events for players
-        //this.input.on('pointerdown', (pointer)=>{})
+        this.input.on('pointerdown', (pointer)=>{
+            if(this.selected != null && pointer.rightButtonDown())
+                this.selected.move(this.map.worldToTileXY(pointer.position.x, pointer.position.y, 
+                        true, new Phaser.Math.Vector2(), this.cameras.main,  this.terrainLayer));
+        })
     }
 
     update() {
