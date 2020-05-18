@@ -40,13 +40,8 @@ class Play extends Phaser.Scene {
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         //give the player some units
-<<<<<<< HEAD
-        this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18));
-        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(2, 18));
-=======
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
         this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
->>>>>>> db1befa65b7eb5a9a5682859a3d2eb437eff57ff
 
         //statsheet implementation
         
@@ -86,10 +81,6 @@ class Play extends Phaser.Scene {
         this.add.text(720, 140, 'Health: X/X', statConfig2);
         this.add.text(720, 180, 'Power: X', statConfig2);
         this.add.text(720, 220, 'Distortion X/X', statConfig2);
-
-
-        this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18), 3 ,50);
-        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18), 2, 200);
         
         
         
