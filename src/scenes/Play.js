@@ -24,19 +24,23 @@ class Play extends Phaser.Scene {
         //make the layers
         this.backgroundLayer = this.map.createStaticLayer("Background", this.tileset, 0,0);
         this.terrainLayer = this.map.createStaticLayer("Map", this.tileset, 0,0);
-
+        this.enemyLayer = this.map.createStaticLayer("Enimies", this.tileset, 0,0);
 
         //Make all the enemies
-        this.enemySpawns = this.map.filterTiles(tile => {tile.id == 11}, 
-                    this, 0, 0, this.map.width, this.map.height, {}, "Enimies");
-        this.enemies = new Array()
+        this.enemySpawns = this.map.filterTiles(tile => true,
+             this, 0, 0, this.map.width, this.map.height, {isNotEmpty:true}, this.enemyLayer);
+        this.enemies = this.add.group({
+            runChildUpdate: true
+        })
         this.enemySpawns.forEach(element => {
-            this.enemies.push(new Enemy(this, 0, 0, enemyArt, 0, 2, element))
+            this.enemies.add(new Enemy(this, 0, 0, "enemyArt", 0, 2, element))
         });
 
+        //Don't need to show the enemy's spawns
+        this.enemyLayer.visible = false;
         //give the player some units
         this.wizardUnit = new Ally(this, 200, 200, "tempWizard", 0, 2, this.terrainLayer.getTileAt(1, 18));
-        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(2, 18));
+        this.tankUnit = new Ally(this, 200, 200, "tempTank", 0, 3, this.terrainLayer.getTileAt(3, 18));
         
     }
 
