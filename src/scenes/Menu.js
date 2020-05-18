@@ -4,6 +4,8 @@ class Menu extends Phaser.Scene {
     }
     preload() {
         this.load.path = './Assets/'
+
+        this.load.audio('folk', 'folk.mp3');
     }
 
     create() {
@@ -18,6 +20,7 @@ class Menu extends Phaser.Scene {
             this.enterButtonHoverState();
             this.scene.start("playScene");
         });
+        this.play.folk();
     }
 
     update() {  
