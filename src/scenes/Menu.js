@@ -31,7 +31,7 @@ class Menu extends Phaser.Scene {
     }
 
     update() {  
-        this.scene.start("playScene")
+        //this.scene.start("playScene")
     }
 
     enterButtonHoverState() {
