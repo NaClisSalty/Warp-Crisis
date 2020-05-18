@@ -1,7 +1,7 @@
 class Unit extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame, movement, tile, strength, health){
         super(scene, x, y, texture, frame);
-        console.log(tile)
+        //console.log(tile)
         scene.add.existing(this);
         this.movement = movement;
         this.tile = tile;
@@ -11,7 +11,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.strength = strength;
         this.health = health;
         this.currentHealth = health;
-        console.log("made unit at "+ this.x + " " + this.y)
+        //console.log("made unit at "+ this.x + " " + this.y)
     }
 
     //Moves to a target tile
