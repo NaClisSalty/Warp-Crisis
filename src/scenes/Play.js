@@ -81,27 +81,21 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
         
-        this.add.text(740, 20, 'Stats', statConfig1);
-        this.add.text(720, 100, 'Movement: X/X', statConfig2);
-        this.add.text(720, 140, 'Health: X/X', statConfig2);
-        this.add.text(720, 180, 'Power: X', statConfig2);
-        this.add.text(720, 220, 'Distortion X/X', statConfig2);
+        this.statText = this.add.text(740, 20, 'Stats', statConfig1);
+        this.moveText = this.add.text(720, 100, 'Movement: X/X', statConfig2);
+        this.healthText = this.add.text(720, 140, 'Health: X/X', statConfig2);
+        this.powerText = this.add.text(720, 180, 'Power: X', statConfig2);
+        this.distText = this.add.text(720, 220, 'Distortion X/X', statConfig2);
         
         //define mouse
         //map is 20x20
         game.input.mouse.capture = true;
 
         //onclick events for players
-        sprite.on('pointerdown', function (pointer) {
-
-            this.setTint(0xff0000);
-    
-        });
-        
     }
 
     update() {
-       
+       game.input.mousePointer.x
     }
     _onFocus() {
         this.paused = false;
@@ -114,5 +108,11 @@ class Play extends Phaser.Scene {
     //Quick and dirty method to check if 2 tiles are adjacent.
     checkAdjacency(tile, otherTile){
         return(Math.abs(tile.x-otherTile.x)<= 1 && Math.abs(tile.y-otherTile.y)<= 1);
+    }
+    setStatWindow(unit) {
+        this.moveText.text = "Movement: "+unit.movement+"/"+unit.remainingMovement;
+        this.healthText.text = "Health: "+unit.health+"/"+unit.currentHealth;
+        this.powerText.text = "Power: "+unit.strength;
+        this.distText.text = "Distortion > 9000";
     }
 }

@@ -11,6 +11,12 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.strength = strength;
         this.health = health;
         this.currentHealth = health;
+        this.setInteractive({
+            draggable: false,
+            useHandCursor: false
+        });
+        this.on('pointerover', function (pointer){scene.setStatWindow(this)})
+        this.on('pointerDown', scene.setStatWindow(this));
         //console.log("made unit at "+ this.x + " " + this.y)
     }
 
