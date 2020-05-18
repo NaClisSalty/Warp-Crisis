@@ -87,7 +87,16 @@ class Play extends Phaser.Scene {
         this.add.text(720, 180, 'Power: X', statConfig2);
         this.add.text(720, 220, 'Distortion X/X', statConfig2);
         
-        
+        //define mouse
+        //map is 20x20
+        game.input.mouse.capture = true;
+
+        //onclick events for players
+        sprite.on('pointerdown', function (pointer) {
+
+            this.setTint(0xff0000);
+    
+        });
         
     }
 
