@@ -1,4 +1,4 @@
-class Map extends Phaser.Tilemaps.Tilemap{
+class GameMap extends Phaser.Tilemaps.Tilemap{
     constructor(scene, mapData){
         super(scene,mapData);
     }

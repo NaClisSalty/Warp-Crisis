@@ -1,9 +1,14 @@
 class Unit extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame, movement, tile){
         super(scene, x, y, texture, frame);
+        console.log(tile)
+        scene.add.existing(this);
         this.movement = movement;
         this.tile = tile;
         this.remainingMovement = movement;
+        this.x = tile.pixelX + tile.width/2;
+        this.y = tile.pixelY + tile.height/2;
+        console.log("made unit at "+ this.x + " " + this.y)
     }
 
     //Moves to a target tile
@@ -13,9 +18,10 @@ class Unit extends Phaser.GameObjects.Sprite{
         if(this.tile == target)
             return;
         //If the target is impassable, also do nothing
-        if(!target.isPassable)
+        console.log(target.properties.isPassable);
+        if(!target.properties.isPassable)
             return;
-        
+        console.log("was passable")
         //Also, if we're out of moves then we shouldn't be moving
         if(this.remainingMovement == 0)
             return;
@@ -25,10 +31,12 @@ class Unit extends Phaser.GameObjects.Sprite{
             this.moveTo(target)
         }
         //Otherwise, do the pathfinding thing
+        //Except that we don't for now because it's all broken
+        /*
         else{
             //First just run A* and get the path to the place
             //Passing in the tileMap as a param because it's just shorter
-            let path = AStar(target, this.scene.map);
+            let path = this.AStar(target, this.scene.map);
             //Keep moving until we can't any more
             while(this.remainingMovement > 0 && path.length != 0){
                 let nextTile = path.shift();
@@ -36,13 +44,14 @@ class Unit extends Phaser.GameObjects.Sprite{
             }
             //We should now be as close to the target as we could have gotten
         }
-
-        //A* pathfinding algorithm
-        //Basically the same as Dijkstra's algorithm but with a heuristic function
-        //Said function ensures you're starting in the right direction
-        //Credit for this goes either to wikipedia or my CS teacher in HS, can't remember
-        //Wiki article for reference, look at pseudocode: https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
+        */
     }
+
+    //A* pathfinding algorithm
+    //Basically the same as Dijkstra's algorithm but with a heuristic function
+    //Said function ensures you're starting in the right direction
+    //Credit for this goes either to wikipedia or my CS teacher in HS, can't remember
+    //Wiki article for reference, look at pseudocode: https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode
     AStar(target, map){
         //Need a few things here
         //Firstly, need to track how each tile is reached
@@ -59,8 +68,8 @@ class Unit extends Phaser.GameObjects.Sprite{
         let fMap = new Map();
         //Obviously cost to the start is 0 so this is just h(current)
         fMap.set(this.tile, this.estimate(this.tile, target));
-
         //Tracking the tiles yet to be processed
+        //let nextTiles = new SortedSet({comparator:(a, b)=>{return (fMap.get(b) -fMap.get(a))}})
         let nextTiles = new Set();
         //Start with current tile
         nextTiles.add(this.tile);
@@ -70,8 +79,8 @@ class Unit extends Phaser.GameObjects.Sprite{
         while(nextTiles.size != 0){
             //Get the best tile to check
             //Doesn't actually exist rn, need to write method
-            let currentTile = nextTiles.entries().next().value;
-
+            let currentTile = this.lowestVal(nextTiles, fMap);
+            console.log(nextTiles.size)
             //If we got there, we're done
             if(currentTile == target)
                 return(this.reconstructPath(cameFrom, currentTile))
@@ -84,17 +93,17 @@ class Unit extends Phaser.GameObjects.Sprite{
             let adjacentTiles = new Array()
             
             //For loop is a bit weird to deal with map edges
-            for(i = Math.max(currentTile.x-1, 0); i <= currentTile.x +1 && i < map.width; i++){
-                for(j = Math.max(currentTile.y-1, 0); j <= currentTile.y +1 && j < map.height; j++){
-                    if(map.getTileAt(i, j) != currentTile && map.getTileAt(i,j).isPassable)
+            for(let i = Math.max(currentTile.x-1, 0); i <= currentTile.x +1 && i < map.width; i++){
+                for(let j = Math.max(currentTile.y-1, 0); j <= currentTile.y +1 && j < map.height; j++){
+                    if(map.getTileAt(i, j) != currentTile && map.getTileAt(i,j).properties.isPassable)
                         adjacentTiles.push(map.getTileAt(i, j));
                 }
             }
-
+            console.log(adjacentTiles.length);
             //Now look through all these tiles
             adjacentTiles.forEach((tile)=>{
                 //Store the cost to that neighbour through this tile
-                let gScore = costTo.get(currentTile) + tile.movementCost;
+                let gScore = costTo.get(currentTile) + tile.properties.movementCost;
                 //if there's no current path to the tile, or this is better than the prior route
                 if(costTo.get(tile) == undefined || gScore < costTo.get(tile)){
                     //We should set this as the new most efficient route to the tile
@@ -104,7 +113,7 @@ class Unit extends Phaser.GameObjects.Sprite{
                     //Record that we got there from here
                     cameFrom.set(tile, currentTile);
                     //Record the fScore for sorting purposes
-                    fMap.set(tile, gScore + this.estimate(tile));
+                    fMap.set(tile, gScore + this.estimate(tile, target));
                 }
             })
         }
@@ -133,15 +142,28 @@ class Unit extends Phaser.GameObjects.Sprite{
     //Helper function for moving tiles
     changeTile(destination){
         this.tile = destination;
-        this.x = this.scene.map.tileToWorldX(destination.x);
-        this.y = this.scene.map.tileToWorldY(destination.y);
+        this.x = this.scene.map.tileToWorldX(destination.x) + destination.width/2;
+        this.y = this.scene.map.tileToWorldY(destination.y) + destination.width/2;
+        console.log("moved to " + destination.x + " " + destination.y);
+        console.log("positioned at " +this.x + " " + this.y)
     }
 
     //Another helper function for moving
     //This one is separate in case we want to use the above for moving without paying cost
     moveTo(destination){
         this.changeTile(destination);
-        this.remainingMovement -= destination.movementCost;
+        this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
+    }
+
+    //Have to make my own method to find + remove least value from a set because modules don't like working
+    lowestVal(set, map){
+        let lowestValue = set.values().next().value;
+        set.forEach(element => {
+            if(map.get(element) < map.get(lowestValue))
+                lowestValue = element;
+        });
+        set.delete(lowestValue);
+        return(lowestValue)
     }
 }
