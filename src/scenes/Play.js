@@ -89,6 +89,16 @@ class Play extends Phaser.Scene {
         
         //Set the selected object to null initially since the player shouldn't have anything at the start
         this.selected = null;
+        //define mouse
+        //map is 20x20
+        game.input.mouse.capture = true;
+
+        //onclick events for players
+        sprite.on('pointerdown', function (pointer) {
+
+            this.setTint(0xff0000);
+    
+        });
         
     }
 
