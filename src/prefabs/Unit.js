@@ -1,5 +1,5 @@
 class Unit extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, frame, movement, tile){
+    constructor(scene, x, y, texture, frame, movement, tile, strength, health){
         super(scene, x, y, texture, frame);
         console.log(tile)
         scene.add.existing(this);
@@ -8,6 +8,9 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.remainingMovement = movement;
         this.x = tile.pixelX + tile.width/2;
         this.y = tile.pixelY + tile.height/2;
+        this.strength = strength;
+        this.health = health;
+        this.currentHealth = health;
         console.log("made unit at "+ this.x + " " + this.y)
     }
 
