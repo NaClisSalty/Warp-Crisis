@@ -21,6 +21,6 @@ class Ally extends Unit{
     }
     //Simple helper function because JS's type checking is apparently garbage
     isAlly(){
-        true
+        return true
     }
 }

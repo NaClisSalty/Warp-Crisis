@@ -77,6 +77,9 @@ class Play extends Phaser.Scene {
         this.allies = this.add.group({
             runChildUpdate: true
         })
+
+        //We generally want this layer so just setting the default here
+        this.map.setLayer(this.terrainLayer)
         this.spawns.forEach(element => {
             //Need to get the tiles for the actually important layer when spawning
             if(element.index == 15)

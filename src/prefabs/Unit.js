@@ -1,7 +1,6 @@
 class Unit extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture, frame, movement, tile, strength, health){
         super(scene, x, y, texture, frame);
-        //console.log(tile)
         scene.add.existing(this);
         this.name = texture;
         this.movement = movement;
@@ -28,14 +27,10 @@ class Unit extends Phaser.GameObjects.Sprite{
             }
         });
         this.tile.properties.occupant = this;
-        console.log(this.tile.properties.occupant)
     }
 
     //Moves to a target tile
     move(target){
-        console.log(target)
-        console.log(this.tile)
-        console.log(this.tile.properties.occupant)
         //To save time, deal with the trivial cases first
         //If we're already at the target, do nothing
         if(this.tile == target)
@@ -44,23 +39,6 @@ class Unit extends Phaser.GameObjects.Sprite{
         if(!target.properties.isPassable)
             return;
 
-        //Check to see if anyone is there
-        //Will use occupant code eventually, but that is currently broken
-        if(target.properties.occupant != undefined){
-            //if it's an enemy
-            console.log("found something")
-            console.log(target.properties.occupant.isAlly())
-            if(!target.properties.occupant.isAlly()){
-                //Fight it
-                this.combat(target.properties.occupant)
-                //If it's not dead, stop moving
-                if(target.properties.occupant != undefined)
-                    return;
-            }
-            //if it's not an enemy, stop moving
-            else
-                return;
-        }
         //Also, if we're out of moves then we shouldn't be moving
         if(this.remainingMovement == 0)
             return;
@@ -71,7 +49,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         }
         //Otherwise, do the pathfinding thing
         //Except that we don't for now because it's all broken
-        /*
+        
         else{
             //First just run A* and get the path to the place
             //Passing in the tileMap as a param because it's just shorter
@@ -83,7 +61,7 @@ class Unit extends Phaser.GameObjects.Sprite{
             }
             //We should now be as close to the target as we could have gotten
         }
-        */
+        
     }
 
     //A* pathfinding algorithm
@@ -119,7 +97,6 @@ class Unit extends Phaser.GameObjects.Sprite{
             //Get the best tile to check
             //Doesn't actually exist rn, need to write method
             let currentTile = this.lowestVal(nextTiles, fMap);
-            console.log(nextTiles.size)
             //If we got there, we're done
             if(currentTile == target)
                 return(this.reconstructPath(cameFrom, currentTile))
@@ -138,7 +115,6 @@ class Unit extends Phaser.GameObjects.Sprite{
                         adjacentTiles.push(map.getTileAt(i, j));
                 }
             }
-            console.log(adjacentTiles.length);
             //Now look through all these tiles
             adjacentTiles.forEach((tile)=>{
                 //Store the cost to that neighbour through this tile
@@ -171,7 +147,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         let route = Array();
         route.push(destination)
         let current = destination
-        while(steps.has(destination)){
+        while(steps.get(current)!= this.tile){
             current = steps.get(current)
             route.unshift(current)
         }
@@ -185,13 +161,25 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.tile.properties.occupant = this
         this.x = this.scene.map.tileToWorldX(destination.x) + destination.width/2;
         this.y = this.scene.map.tileToWorldY(destination.y) + destination.width/2;
-        console.log("moved to " + destination.x + " " + destination.y);
-        console.log("positioned at " +this.x + " " + this.y)
     }
 
     //Another helper function for moving
     //This one is separate in case we want to use the above for moving without paying cost
     moveTo(destination){
+        //Check to see if anyone is there
+        if(destination.properties.occupant != undefined){
+            //if it's not us
+            if(destination.properties.occupant.isAlly()!= this.isAlly()){
+                //Fight it
+                this.combat(destination.properties.occupant)
+                //If it's not dead, stop moving
+                if(destination.properties.occupant != undefined)
+                    return;
+            }
+            //if it's not our enemy, stop moving
+            else
+                return;
+        }
         this.changeTile(destination);
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
