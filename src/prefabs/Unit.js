@@ -55,6 +55,7 @@ class Unit extends Phaser.GameObjects.Sprite{
             //Passing in the tileMap as a param because it's just shorter
             let path = this.AStar(target, this.scene.map);
             //Keep moving until we can't any more
+
             while(this.remainingMovement > 0 && path.length != 0){
                 let nextTile = path.shift();
                 this.moveTo(nextTile);

@@ -74,6 +74,9 @@ class Play extends Phaser.Scene {
         this.enemies = this.add.group({
             runChildUpdate: true
         })
+        this.enemiesActive = this.add.group({
+            runChildUpdate: true
+        })
         this.allies = this.add.group({
             runChildUpdate: true
         })
@@ -95,8 +98,8 @@ class Play extends Phaser.Scene {
         ///////////////
         //test enemy
         ////////////////
-        this.enemies.add(new Enemy(this, 0, 0, "tempWizard", 0, 5, 
-                this.map.getTileAt(17, 17, false, this.terrainLayer), 1, 10000))
+        this.enemiesActive.add(new Enemy(this, 0, 0, Phaser.Math.RND.pick(["tempWizard","tempTank"]), 0, 2, 
+                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150))
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         
@@ -164,7 +167,17 @@ class Play extends Phaser.Scene {
                 unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
             unit.remainingMovement = unit.movement;
         });
-        this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
+        this.enemiesActive.getChildren().forEach((unit)=>{
+            unit.takeTurn();
+            //if we didnt move heal for 17.5% of our max hp
+            if (unit.remainingMovement == unit.movement) {
+                //unit.currentHealth = Math.min(Math.round(unit.currentHealth + (unit.health*0.175)), unit.health);
+                unit.currentHealth = unit.currentHealth + 10;
+
+            }
+            unit.remainingMovement = unit.movement;
+        });
+        //this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
         if(this.displayed!= null)
             this.setStatWindow(this.displayed)
     }
