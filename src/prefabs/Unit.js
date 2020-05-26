@@ -173,9 +173,12 @@ class Unit extends Phaser.GameObjects.Sprite{
             if(destination.properties.occupant.isAlly()!= this.isAlly()){
                 //Fight it
                 this.combat(destination.properties.occupant)
-                //If it's not dead, stop moving
-                if(destination.properties.occupant != undefined)
+                //If it's not dead, stop moving and pay movement costs
+                if(destination.properties.occupant != undefined){
+                    this.remainingMovement -= destination.properties.movementCost;
+                    this.remainingMovement = Math.max(0, this.remainingMovement);
                     return;
+                }
             }
             //if it's not our enemy, stop moving
             else
@@ -184,6 +187,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.changeTile(destination);
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
+        this.scene.setStatWindow(this.scene.displayed)
     }
 
     //Have to make my own method to find + remove least value from a set because modules don't like working
