@@ -88,11 +88,15 @@ class Play extends Phaser.Scene {
             else if (element.index == 14)
                 this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, 
                 this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50))
-            else if (element.index == 13)
+            else if (element.index == 13) 
                 this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200))
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200))              
         });
-
+        ///////////////
+        //test enemy
+        ////////////////
+        this.enemies.add(new Enemy(this, 0, 0, "tempWizard", 0, 5, 
+                this.map.getTileAt(17, 17, false, this.terrainLayer), 1, 10000))
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         
