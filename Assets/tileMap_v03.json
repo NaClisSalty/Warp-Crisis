@@ -323,6 +323,45 @@
          "spacing":0,
          "tilecount":2,
          "tileheight":32,
+         "tiles":[
+                {
+                 "id":0,
+                 "properties":[
+                        {
+                         "name":"isPassable",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"movementCost",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"warpLevel",
+                         "type":"int",
+                         "value":5
+                        }]
+                }, 
+                {
+                 "id":1,
+                 "properties":[
+                        {
+                         "name":"isPassable",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"movementCost",
+                         "type":"int",
+                         "value":2
+                        }, 
+                        {
+                         "name":"warpLevel",
+                         "type":"int",
+                         "value":1
+                        }]
+                }],
          "tilewidth":32
         }],
  "tilewidth":32,
