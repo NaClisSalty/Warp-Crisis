@@ -177,6 +177,10 @@ class Play extends Phaser.Scene {
             }
             unit.remainingMovement = unit.movement;
         });
+
+        this.enemies.getChildren().forEach((unit)=>{
+            unit.attackAdjacent();
+        })
         //this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
         if(this.displayed!= null)
             this.setStatWindow(this.displayed)
