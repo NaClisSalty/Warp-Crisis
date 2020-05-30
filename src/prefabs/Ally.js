@@ -17,7 +17,9 @@ class Ally extends Unit{
             }
             this.tile.properties.occupant = undefined;
             this.scene.allies.remove(this, true, true);
+            return true
         }
+        return false
     }
     //Simple helper function because JS's type checking is apparently garbage
     isAlly(){
