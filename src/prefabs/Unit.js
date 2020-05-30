@@ -1,5 +1,5 @@
 class Unit extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, frame, movement, tile, strength, health){
+    constructor(scene, x, y, texture, frame, movement, tile, strength, health, warp){
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
         this.name = texture;
@@ -11,6 +11,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.strength = strength;
         this.health = health;
         this.currentHealth = health;
+        this.warp = warp;
         this.setInteractive({
             draggable: false,
             useHandCursor: false
@@ -213,5 +214,13 @@ class Unit extends Phaser.GameObjects.Sprite{
         opponent.currentHealth = Math.round(opponent.currentHealth)
         opponent.checkDeath()
         return this.checkDeath()
+    }
+
+    //If the tile or the unit is less warped than the other, increase warp
+    balanceWarp(){
+        if(this.tile.properties.warpLevel > this.warp)
+            this.warp += (this.tile.properties.warpLevel - this.warp)/3;
+        else if (this.tile.properties.warpLevel < this.warp)
+            this.tile.properties.warpLevel += (this.warp - this.tile.properties.warpLevel)/3;
     }
 }

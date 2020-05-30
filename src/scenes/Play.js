@@ -163,11 +163,13 @@ class Play extends Phaser.Scene {
     //Handles ending the turn
     endTurn(){
         this.allies.getChildren().forEach((unit)=>{
+            unit.balanceWarp()
             if(unit.remainingMovement == unit.movement)
                 unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
             unit.remainingMovement = unit.movement;
         });
         this.enemiesActive.getChildren().forEach((unit)=>{
+            unit.balanceWarp()
             unit.takeTurn();
             //if we didnt move heal for 17.5% of our max hp
             if (unit.remainingMovement == unit.movement) {
@@ -179,6 +181,7 @@ class Play extends Phaser.Scene {
         });
 
         this.enemies.getChildren().forEach((unit)=>{
+            unit.balanceWarp()
             unit.attackAdjacent();
         })
         //this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
