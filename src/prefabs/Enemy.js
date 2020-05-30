@@ -1,6 +1,6 @@
 class Enemy extends Unit{
     constructor(scene, x, y, texture, frame, movement, tile, strength, health){
-        super(scene, x, y, texture, frame, movement, tile, strength, health);
+        super(scene, x, y, texture, frame, movement, tile, strength, health, 75);
         this.name = texture.slice(5);
         
         this.target = null;
@@ -189,7 +189,7 @@ class Enemy extends Unit{
             //Need to check that it's still alive before continuing fighting
             if(this.scene != undefined && this.scene.checkAdjacency(this.tile, ally.tile)){
                 if(this.combat(ally))
-                    break;
+                    return;
 
             }
         })
