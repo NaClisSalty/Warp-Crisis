@@ -189,7 +189,7 @@ class Enemy extends Unit{
             //Need to check that it's still alive before continuing fighting
             if(this.scene != undefined && this.scene.checkAdjacency(this.tile, ally.tile)){
                 if(this.combat(ally))
-                    break;
+                    return;
 
             }
         })
