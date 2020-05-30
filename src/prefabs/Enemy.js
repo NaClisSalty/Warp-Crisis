@@ -123,6 +123,7 @@ class Enemy extends Unit{
         if(this.currentHealth <= 0){
             this.tile.properties.occupant = undefined;
             this.scene.enemiesActive.remove(this, true, true);
+            this.scene.enemies.remove(this, true, true);
             console.log()
         }
     }
