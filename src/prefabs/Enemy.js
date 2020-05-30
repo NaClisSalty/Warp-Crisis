@@ -124,8 +124,9 @@ class Enemy extends Unit{
             this.tile.properties.occupant = undefined;
             this.scene.enemiesActive.remove(this, true, true);
             this.scene.enemies.remove(this, true, true);
-            console.log()
+            return true
         }
+        return false
     }
     findTarget() {
         if (this.target == null && this.scene.allies.getChildren().length > 0) {
@@ -186,8 +187,11 @@ class Enemy extends Unit{
         //console.log("enemy smack");
         this.scene.allies.getChildren().forEach((ally)=> {
             //Need to check that it's still alive before continuing fighting
-            if(this.scene != undefined && this.scene.checkAdjacency(this.tile, ally.tile))
-                this.combat(ally)
+            if(this.scene != undefined && this.scene.checkAdjacency(this.tile, ally.tile)){
+                if(this.combat(ally))
+                    break;
+
+            }
         })
     }
     //Simple helper function because JS's type checking is apparently garbage

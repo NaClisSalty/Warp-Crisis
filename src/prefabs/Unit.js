@@ -212,6 +212,6 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.currentHealth = Math.round(this.currentHealth);
         opponent.currentHealth = Math.round(opponent.currentHealth)
         opponent.checkDeath()
-        this.checkDeath()
+        return this.checkDeath()
     }
 }
