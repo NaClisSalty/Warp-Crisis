@@ -5,7 +5,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.path = './Assets/'
-        this.load.image("tiles", "warpTiles.png");
+        this.load.image("tiles", "allTiles_v2.png");
         this.load.tilemapTiledJSON("mapjson", "tileMap_v04.json")
 
         this.load.image("tempWizard", "wizard_character.png")
@@ -124,6 +124,9 @@ class Play extends Phaser.Scene {
         .on('pointerdown', () => {
             this.endTurn()
         });
+
+        //Selection box
+        this.selectionBox = this.add.rectangle(0, 0, 32, 32).setVisible(false).setStrokeStyle(2, "0xFFFF34");
     }
 
     update() {
