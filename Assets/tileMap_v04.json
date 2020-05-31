@@ -3,7 +3,8 @@
     {
      "export":
         {
-         "format":"json"
+         "format":"json",
+         "target":"tileMap_v04.json"
         }
     },
  "height":20,
