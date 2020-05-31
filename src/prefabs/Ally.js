@@ -5,6 +5,8 @@ class Ally extends Unit{
         this.on('pointerdown', function(pointer){
             scene.selected = this;
             scene.displayed = this;
+            scene.selectionBox.setVisible(true)
+            scene.selectionBox.setPosition(this.x,this.y)
         });
     }
 
@@ -14,6 +16,7 @@ class Ally extends Unit{
             if(this.scene.selected == this){
                 this.scene.selected = null
                 this.scene.resetStatDisplay()
+                this.scene.selectionBox.setVisible(false)
             }
             this.tile.properties.occupant = undefined;
             this.scene.allies.remove(this, true, true);
