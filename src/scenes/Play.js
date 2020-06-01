@@ -62,7 +62,7 @@ class Play extends Phaser.Scene {
         this.moveText = this.add.text(720, 100, 'Movement: X/X', statConfig2);
         this.healthText = this.add.text(720, 140, 'Health: X/X', statConfig2);
         this.powerText = this.add.text(720, 180, 'Power: X', statConfig2);
-        this.distText = this.add.text(720, 220, 'Distortion X/X', statConfig2);
+        this.distText = this.add.text(720, 220, 'Distortion: X/X', statConfig2);
 
         //Set the selected object to null initially since the player shouldn't have anything at the start
         this.selected = null;
@@ -150,7 +150,7 @@ class Play extends Phaser.Scene {
         this.moveText.text = "Movement: "+unit.remainingMovement+"/"+unit.movement;
         this.healthText.text = "Health: "+unit.currentHealth+"/"+unit.health;
         this.powerText.text = "Power: "+unit.strength;
-        this.distText.text = "Distortion > 9000";
+        this.distText.text = "Distortion: " + unit.warp + "/" + 100;
     }
 
     //Resets the displayed stats to what they were at the start of the game if there's no selected unit
@@ -159,7 +159,7 @@ class Play extends Phaser.Scene {
         this.moveText.text = 'Movement: X/X';
         this.healthText.text =  'Health: X/X';
         this.powerText.text =  'Power: X'
-        this.distText.text ="Distortion X/X";
+        this.distText.text ="Distortion: X/X";
 
     }
 
