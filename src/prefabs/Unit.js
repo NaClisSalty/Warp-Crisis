@@ -207,6 +207,11 @@ class Unit extends Phaser.GameObjects.Sprite{
     }
     //Runs to fight whatever unit is opponent
     combat(opponent){
+        //play a sound!
+        //inline random grunt maker by Ian
+        let soundToPlay = Phaser.Math.RND.pick([...Array(6)].map((_, i) => "grunt"+(i+1)));
+        this.scene.sound.play(soundToPlay);
+        console.log(soundToPlay);
         //Need to store damage separately to not affect calculations
         let healthChange = opponent.strength * opponent.currentHealth / opponent.health/ 
                 (this.strength * this.currentHealth/this.health) * 25;
