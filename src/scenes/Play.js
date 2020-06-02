@@ -11,6 +11,18 @@ class Play extends Phaser.Scene {
         this.load.image("tempWizard", "wizard_character.png")
         this.load.image("enemyWarpsoul", "enemy.png");
         this.load.image("tempTank", "robo_character.png")
+
+        this.load.audio('enemyAttack', 'enemyAttackNoise.mp3');
+        this.load.audio('weird', 'flubershuble.mp3');
+        this.load.audio('grunt1', 'grunt.mp3');
+        this.load.audio('grunt2', 'grunt2.mp3');
+        this.load.audio('grunt3', 'grunt3.mp3');
+        this.load.audio('grunt4', 'grunt4.mp3');
+        this.load.audio('grunt5', 'grunt5.mp3');
+        this.load.audio('grunt6', 'grunt6.mp3');
+        this.load.audio('movementSound', 'movement.mp3');
+        this.load.audio('robotAttack', 'robotAttack.mp3');
+        this.load.audio('wizardAttack', 'wizardAttack.mp3');
     } 
 
     create() {
@@ -87,7 +99,7 @@ class Play extends Phaser.Scene {
             //Need to get the tiles for the actually important layer when spawning
             if(element.index == 15)
                 this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, 
-                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50))
+                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false))
             else if (element.index == 14)
                 this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, 
                 this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50))
@@ -98,8 +110,8 @@ class Play extends Phaser.Scene {
         ///////////////
         //test enemy
         ////////////////
-        this.enemiesActive.add(new Enemy(this, 0, 0, Phaser.Math.RND.pick(["tempWizard","tempTank"]), 0, 2, 
-                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150))
+        this.enemies.add(new Enemy(this, 0, 0, Phaser.Math.RND.pick(["tempWizard","tempTank"]), 0, 2, 
+                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true));
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         
@@ -171,22 +183,27 @@ class Play extends Phaser.Scene {
                 unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
             unit.remainingMovement = unit.movement;
         });
-        this.enemiesActive.getChildren().forEach((unit)=>{
-            unit.balanceWarp()
-            unit.takeTurn();
-            //if we didnt move heal for 17.5% of our max hp
-            if (unit.remainingMovement == unit.movement) {
-                //unit.currentHealth = Math.min(Math.round(unit.currentHealth + (unit.health*0.175)), unit.health);
-                unit.currentHealth = unit.currentHealth + 10;
-
-            }
-            unit.remainingMovement = unit.movement;
-        });
-
         this.enemies.getChildren().forEach((unit)=>{
             unit.balanceWarp()
-            unit.attackAdjacent();
-        })
+            if (unit.canMove) {
+                unit.takeTurn();
+                //if we didnt move heal for 17.5% of our max hp
+                if (unit.remainingMovement == unit.movement) {
+                    //unit.currentHealth = Math.min(Math.round(unit.currentHealth + (unit.health*0.175)), unit.health);
+                    unit.currentHealth = unit.currentHealth + 10;
+
+                }
+                unit.remainingMovement = unit.movement;
+            }
+            else {
+                unit.attackAdjacent();
+            }
+        });
+
+        // this.enemies.getChildren().forEach((unit)=>{
+        //     unit.balanceWarp()
+        //     unit.attackAdjacent();
+        // })
         //this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
         if(this.displayed!= null)
             this.setStatWindow(this.displayed)

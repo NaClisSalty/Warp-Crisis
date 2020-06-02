@@ -1,7 +1,8 @@
 class Enemy extends Unit{
-    constructor(scene, x, y, texture, frame, movement, tile, strength, health){
+    constructor(scene, x, y, texture, frame, movement, tile, strength, health, canMove){
         super(scene, x, y, texture, frame, movement, tile, strength, health, 75);
         this.name = texture.slice(5);
+        this.canMove = canMove;
         
         this.target = null;
 
@@ -122,7 +123,7 @@ class Enemy extends Unit{
         //console.log(this.currentHealth);
         if(this.currentHealth <= 0){
             this.tile.properties.occupant = undefined;
-            this.scene.enemiesActive.remove(this, true, true);
+            //this.scene.enemiesActive.remove(this, true, true);
             this.scene.enemies.remove(this, true, true);
             return true
         }
@@ -141,7 +142,6 @@ class Enemy extends Unit{
             }
         });
         //console.log(closest);
-
         this.target = closest[0];
     }
     //returns A* dist to target in tiles needed to travle
