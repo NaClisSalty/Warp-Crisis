@@ -6,7 +6,7 @@ class Play extends Phaser.Scene {
     preload() {
         this.load.path = './Assets/'
         this.load.image("tiles", "allTiles_v2.png");
-        this.load.tilemapTiledJSON("mapjson", "tileMap_v04.json")
+        this.load.tilemapTiledJSON("mapjson", "tileMap_v07.json")
 
         this.load.image("tempWizard", "wizard_character.png")
         this.load.image("enemyWarpsoul", "enemy.png");
@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
         this.map = this.add.tilemap("mapjson");
 
         //Give it tiles
-        this.tileset = this.map.addTilesetImage("warp_tileMap", "tiles")
+        this.tileset = this.map.addTilesetImage("allTilesv2", "tiles")
 
         //make the layers
         this.backgroundLayer = this.map.createStaticLayer("Background", this.tileset, 0,0);

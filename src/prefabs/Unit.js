@@ -63,6 +63,9 @@ class Unit extends Phaser.GameObjects.Sprite{
             }
             //We should now be as close to the target as we could have gotten
         }
+        if(this.scene.selected = this){
+            this.scene.selectionBox.setPosition(this.x, this.y)
+        }
         
     }
 
