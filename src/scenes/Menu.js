@@ -16,6 +16,7 @@ class Menu extends Phaser.Scene {
         this.load.audio('grunt6', 'grunt6.mp3');
         this.load.audio('movementSound', 'movement.mp3');
         this.load.audio('robotAttack', 'robotAttack.mp3');
+        this.load.audio('wizardAttack', 'wizardAttack.mp3');
 
         this.load.image('menu', 'Warp_menu.png');
     }
