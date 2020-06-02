@@ -6,9 +6,11 @@ class Menu extends Phaser.Scene {
         this.load.path = './Assets/'
 
         this.load.audio('folk', 'folk.mp3');
+        this.load.image('menu', 'Warp_menu.png');
     }
 
     create() {
+        
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
         this.clickButton = this.add.text(centerX-20, centerY, 'Play', {fill: '#d437bc'})
@@ -20,13 +22,15 @@ class Menu extends Phaser.Scene {
             this.enterButtonHoverState();
             this.scene.start("playScene");
         });
-
+        /*
         this.add.text(centerX, centerY-140, "Warp Crisis", {fontSize: 24}).setOrigin(0.5)
         this.add.text(centerX, centerY-110, "Left click to select your units", {fontSize: 18}).setOrigin(0.5)
         this.add.text(centerX, centerY-80, "Right click to move and attack", {fontSize: 18}).setOrigin(0.5)
         this.add.text(centerX, centerY-50, "End turn to recover movement points, or health if you didn't move", {fontSize: 18}).setOrigin(0.5)
         this.add.text(centerX, centerY-20, "Defeat all enemies", {fontSize: 18}).setOrigin(0.5)
+        */
 
+        this.add.image(0,0, 'menu').setOrigin(0,0);
 
         //music implementation
         let folk = 0;
