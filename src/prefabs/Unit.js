@@ -191,7 +191,8 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.changeTile(destination);
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
-        this.scene.setStatWindow(this.scene.displayed)
+        if(this.scene.displayed != null)
+            this.scene.setStatWindow(this.scene.displayed)
     }
 
     //Have to make my own method to find + remove least value from a set because modules don't like working
