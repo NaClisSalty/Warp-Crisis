@@ -191,7 +191,8 @@ class Unit extends Phaser.GameObjects.Sprite{
         this.changeTile(destination);
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
-        this.scene.setStatWindow(this.scene.displayed)
+        if(this.scene.displayed != null)
+            this.scene.setStatWindow(this.scene.displayed)
     }
 
     //Have to make my own method to find + remove least value from a set because modules don't like working
@@ -206,6 +207,11 @@ class Unit extends Phaser.GameObjects.Sprite{
     }
     //Runs to fight whatever unit is opponent
     combat(opponent){
+        //play a sound!
+        //inline random grunt maker by Ian
+        let soundToPlay = Phaser.Math.RND.pick([...Array(6)].map((_, i) => "grunt"+(i+1)));
+        this.scene.sound.play(soundToPlay);
+        console.log(soundToPlay);
         //Need to store damage separately to not affect calculations
         let healthChange = opponent.strength * opponent.currentHealth / opponent.health/ 
                 (this.strength * this.currentHealth/this.health) * 25;
@@ -222,8 +228,8 @@ class Unit extends Phaser.GameObjects.Sprite{
     //If the tile or the unit is less warped than the other, increase warp
     balanceWarp(){
         if(this.tile.properties.warpLevel > this.warp)
-            this.warp += (this.tile.properties.warpLevel - this.warp)/3;
+            this.warp = Math.round(this.warp + (this.tile.properties.warpLevel - this.warp)/3);
         else if (this.tile.properties.warpLevel < this.warp)
-            this.tile.properties.warpLevel += (this.warp - this.tile.properties.warpLevel)/3;
+            this.tile.properties.warpLevel = Math.round(this.tile.properties.warpLevel + (this.warp - this.tile.properties.warpLevel)/3);
     }
 }
