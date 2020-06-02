@@ -78,9 +78,11 @@ class Enemy extends Unit{
                         else {
 
                         }
-                        //RUN AWAYYYYYY
-                        this.move(runTarget);
-                        this.runStaminaLeft -= 1;
+                        //RUN AWAYYYYYY (if we have a target)
+                        if(runTarget != null){
+                            this.move(runTarget);
+                            this.runStaminaLeft -= 1;
+                        }
                     }
                     else {
                         this.exhausted = true;

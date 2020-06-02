@@ -125,8 +125,14 @@ class Play extends Phaser.Scene {
             this.endTurn()
         });
 
+        
+
+        //Start with a unit selected
+        this.displayed = this.allies.getChildren()[0];
+        this.selected = this.displayed
+
         //Selection box
-        this.selectionBox = this.add.rectangle(0, 0, 32, 32).setVisible(false).setStrokeStyle(2, "0xFFFF34");
+        this.selectionBox = this.add.rectangle(this.displayed.x, this.displayed.y, 32, 32).setStrokeStyle(2, "0xFFFF34");
     }
 
     update() {

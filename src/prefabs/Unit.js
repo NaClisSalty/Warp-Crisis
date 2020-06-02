@@ -223,8 +223,8 @@ class Unit extends Phaser.GameObjects.Sprite{
     //If the tile or the unit is less warped than the other, increase warp
     balanceWarp(){
         if(this.tile.properties.warpLevel > this.warp)
-            this.warp += (this.tile.properties.warpLevel - this.warp)/3;
+            this.warp = Math.round(this.warp + (this.tile.properties.warpLevel - this.warp)/3);
         else if (this.tile.properties.warpLevel < this.warp)
-            this.tile.properties.warpLevel += (this.warp - this.tile.properties.warpLevel)/3;
+            this.tile.properties.warpLevel = Math.round(this.tile.properties.warpLevel + (this.warp - this.tile.properties.warpLevel)/3);
     }
 }
