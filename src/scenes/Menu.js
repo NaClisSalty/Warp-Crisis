@@ -14,15 +14,15 @@ class Menu extends Phaser.Scene {
         
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
-        this.clickButton = this.add.text(centerX-20, centerY, 'Play', {fill: '#d437bc'})
-        .setInteractive({ useHandCursor: true })
-        .on('pointerover', () => this.enterButtonHoverState())
-        .on('pointerout', () => this.enterButtonRestState())
-        .on('pointerdown', () => this.enterButtonActiveState())
-        .on('pointerup', () => {
-            this.enterButtonHoverState();
-            this.scene.start("playScene");
-        });
+        // this.clickButton = this.add.text(centerX-20, centerY, 'Play', {fill: '#d437bc'})
+        // .setInteractive({ useHandCursor: true })
+        // .on('pointerover', () => this.enterButtonHoverState())
+        // .on('pointerout', () => this.enterButtonRestState())
+        // .on('pointerdown', () => this.enterButtonActiveState())
+        // .on('pointerup', () => {
+        //     this.enterButtonHoverState();
+        //     this.scene.start("playScene");
+        // });
         /*
         this.add.text(centerX, centerY-140, "Warp Crisis", {fontSize: 24}).setOrigin(0.5)
         this.add.text(centerX, centerY-110, "Left click to select your units", {fontSize: 18}).setOrigin(0.5)
@@ -40,6 +40,10 @@ class Menu extends Phaser.Scene {
         //music1.setLoop(true);
         this.folk.play();
         this.folk.setVolume(.2);
+
+        let playButton = this.add.rectangle(481, 354, 290, 122, 0x000000, 0).setInteractive({ useHandCursor: true }).on('pointerup', () => {this.scene.start("playScene")});
+        let instructionButton = this.add.rectangle(200, 515, 290, 122, 0x000000, 0).setInteractive({ useHandCursor: true }).on('pointerup', () => {this.scene.start("instructionsScene")});
+        let creditsButton = this.add.rectangle(772, 515, 290, 122, 0x000000, 0).setInteractive({ useHandCursor: true }).on('pointerup', () => {this.scene.start("creditsScene")});
 
     }
 

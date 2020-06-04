@@ -1,7 +1,6 @@
 class Ally extends Unit{
-    constructor(scene, x, y, texture, frame, movement, tile, strength, health){
-        super(scene, x, y, texture, frame, movement, tile, strength, health, 1);
-        this.name = texture.slice(4);
+    constructor(scene, x, y, texture, frame, movement, tile, strength, health, name){
+        super(scene, x, y, texture, frame, movement, tile, strength, health, 1, name);
         this.on('pointerdown', function(pointer){
             scene.selected = this;
             scene.displayed = this;
