@@ -34,8 +34,8 @@ class Play extends Phaser.Scene {
         this.tileset = this.map.addTilesetImage("allTilesv2", "tiles")
 
         //make the layers
-        this.backgroundLayer = this.map.createStaticLayer("Background", this.tileset, 0,0);
-        this.terrainLayer = this.map.createStaticLayer("Map", this.tileset, 0,0);
+        this.backgroundLayer = this.map.createDynamicLayer("Background", this.tileset, 0,0);
+        this.terrainLayer = this.map.createDynamicLayer("Map", this.tileset, 0,0);
         this.enemyLayer = this.map.createStaticLayer("Enimies", this.tileset, 0,0);
 
         //statsheet implementation
@@ -145,6 +145,49 @@ class Play extends Phaser.Scene {
 
         //Selection box
         this.selectionBox = this.add.rectangle(this.displayed.x, this.displayed.y, 32, 32).setStrokeStyle(2, "0xFFFF34");
+
+        //function to warp the stats of tiles, to be assigned to every tile
+        //Going to be pretty similar to the version for units
+        //Could be a *lot* similar, but if we add more tile properties later I want to futureproof it
+        let warpStats = function(){
+            //get a shorthand version of the tile's warp level
+            let warp = this.properties.warpLevel
+            this.statWarpArray.forEach((statSet)=>{
+                if(Math.random() * 100 <= warp){
+                    //if we've hit maximum warp value, warp relative to current value
+                    if(warp >= 99)
+                        this.properties[statSet[0]] += this.properties[statSet[0]]*(Math.random()-.5) * warp/100
+                    //otherwise warp relative to base value
+                    else
+                        this.properties[statSet[0]] = statSet[1] + statSet[1]*(Math.random()-.5) * warp/100
+                    //Regardless, need to make sure the decimal isn't too excessive
+                    this.properties[statSet[0]] = Math.round(this.properties[statSet[0]] * 100)/100
+                }
+            })
+            //Also going to include changing of the tilemap image in here for efficiency
+            if(warp >= 50 && !this.warped){
+                this.warped = true
+                if(tileWarpMap.has(this.index)){
+                    this.index = tileWarpMap.get(this.index)
+                    //If we're warping this tile, and it's a tile with a background, change the background too
+                    //God this chain of references looks awful
+                    //I think this still winds up being shorter than not using a forEachTile method though
+                    this.layer.tilemapLayer.scene.backgroundLayer.forEachTile((backTile)=>{
+                        if(backTile.index != 0)
+                            backTile.index = tileWarpMap.get(backTile.index);
+                    }, this, this.x, this.y, 1, 1)
+                }
+            }
+        }
+
+
+        //Now we need to give this + the relevant array to every tile
+        this.terrainLayer.layer.data.forEach((subArray)=>{subArray.forEach((tile)=>{
+            console.log(tile)
+            tile.warpStats = warpStats;
+            tile.statWarpArray = [["movementCost", tile.properties.movementCost]]
+            tile.warped = false;
+        })});
     }
 
     update() {
@@ -188,7 +231,7 @@ class Play extends Phaser.Scene {
             if(unit.remainingMovement == unit.movement)
                 unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
             unit.remainingMovement = unit.movement;
-            unit.warpStats(unit.warp >= 99)
+            unit.warpStats()
         });
         this.enemies.getChildren().forEach((unit)=>{
             unit.balanceWarp()
@@ -205,8 +248,14 @@ class Play extends Phaser.Scene {
             else {
                 unit.attackAdjacent();
             }
-            unit.warpStats(unit.warp >= 99)
+            unit.warpStats()
         });
+
+        //Go through and warp all the tiles
+        this.terrainLayer.layer.data.forEach((subArray)=>{subArray.forEach((tile)=>{
+            tile.warpStats()
+        })});
+
 
         // this.enemies.getChildren().forEach((unit)=>{
         //     unit.balanceWarp()

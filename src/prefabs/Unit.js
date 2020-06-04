@@ -261,12 +261,12 @@ class Unit extends Phaser.GameObjects.Sprite{
     }
 
     //Handles warping of stats.
-    warpStats(maxWarp){
+    warpStats(){
         //debugger;
         this.statsWarp.forEach((statSet)=>{
             if(Math.random() * 100 <= this.warp){
                 //if we've hit maximum warp value, warp relative to current value
-                if(maxWarp)
+                if(this.warp >= 99)
                     this[statSet[0]] += this[statSet[0]]*(Math.random()-.5) * this.warp/100
                 //otherwise warp relative to base value
                 else
