@@ -70,11 +70,11 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
         //stattext
-        this.nameText = this.add.text(800, 20, 'Name', statConfig1).setOrigin(.5,0);
-        this.moveText = this.add.text(720, 100, 'Movement: X/X', statConfig2);
-        this.healthText = this.add.text(720, 140, 'Health: X/X', statConfig2);
-        this.powerText = this.add.text(720, 180, 'Power: X', statConfig2);
-        this.distText = this.add.text(720, 220, 'Distortion: X/X', statConfig2);
+        this.nameText = this.add.text(780, 20, 'Name', statConfig1).setOrigin(.5,0);
+        this.moveText = this.add.text(700, 100, 'Movement: X/X', statConfig2);
+        this.healthText = this.add.text(700, 140, 'Health: X/X', statConfig2);
+        this.powerText = this.add.text(700, 180, 'Power: X', statConfig2);
+        this.distText = this.add.text(700, 220, 'Distortion: X/X', statConfig2);
 
         //Set the selected object to null initially since the player shouldn't have anything at the start
         this.selected = null;
@@ -99,19 +99,19 @@ class Play extends Phaser.Scene {
             //Need to get the tiles for the actually important layer when spawning
             if(element.index == 15)
                 this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, 
-                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false), "Warpsoul")
+                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false, "Warpsoul"))
             else if (element.index == 14)
                 this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50), "Wizard")
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50, "Wizard"))
             else if (element.index == 13) 
                 this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200), "Tank")              
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200, "Tank"))              
         });
         ///////////////
         //test enemy
         ////////////////
         this.enemies.add(new Enemy(this, 0, 0, Phaser.Math.RND.pick(["tempWizard","tempTank"]), 0, 2, 
-                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true), "Warped Wizard");
+                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true, "Warped Ally"));
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         
@@ -168,7 +168,7 @@ class Play extends Phaser.Scene {
         this.moveText.text = "Movement: "+unit.remainingMovement+"/"+unit.movement;
         this.healthText.text = "Health: "+unit.currentHealth+"/"+unit.health;
         this.powerText.text = "Power: "+unit.strength;
-        this.distText.text = "Distortion: " + unit.warp + "/" + 100;
+        this.distText.text = "Warp: " + unit.warp + "/" + 100;
     }
 
     //Resets the displayed stats to what they were at the start of the game if there's no selected unit
@@ -177,7 +177,7 @@ class Play extends Phaser.Scene {
         this.moveText.text = 'Movement: X/X';
         this.healthText.text =  'Health: X/X';
         this.powerText.text =  'Power: X'
-        this.distText.text ="Distortion: X/X";
+        this.distText.text ="Warp: X/X";
 
     }
 
@@ -188,6 +188,7 @@ class Play extends Phaser.Scene {
             if(unit.remainingMovement == unit.movement)
                 unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
             unit.remainingMovement = unit.movement;
+            unit.warpStats(unit.warp >= 99)
         });
         this.enemies.getChildren().forEach((unit)=>{
             unit.balanceWarp()
@@ -204,6 +205,7 @@ class Play extends Phaser.Scene {
             else {
                 unit.attackAdjacent();
             }
+            unit.warpStats(unit.warp >= 99)
         });
 
         // this.enemies.getChildren().forEach((unit)=>{

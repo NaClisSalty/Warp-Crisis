@@ -32,7 +32,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         //Array to handle modification of stats
         //Third value for each is for dependant stats, not all have them
         this.statsWarp = [["movement", this.movement, "remainingMovement"]
-            ,["strength", this.strength],["health", this.health, "currentHealth"]]
+            ,["strength", this.strength],["health", this.health, "currentHealth"]];
     }
 
     //Moves to a target tile
@@ -262,6 +262,7 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Handles warping of stats.
     warpStats(maxWarp){
+        //debugger;
         this.statsWarp.forEach((statSet)=>{
             if(Math.random() * 100 <= this.warp){
                 //if we've hit maximum warp value, warp relative to current value
@@ -269,7 +270,9 @@ class Unit extends Phaser.GameObjects.Sprite{
                     this[statSet[0]] += this[statSet[0]]*(Math.random()-.5) * this.warp/100
                 //otherwise warp relative to base value
                 else
-                    this[statSet[0]] = this[statSet[1]] + this[statSet[1]]*(Math.random()-.5) * this.warp/100
+                    this[statSet[0]] = statSet[1] + statSet[1]*(Math.random()-.5) * this.warp/100
+                //Regardless, need to make sure the decimal isn't too excessive
+                this[statSet[0]] = Math.round(this[statSet[0]] * 100)/100
                 //If this is movement or health, need to make sure the current value of each isn't greater than the new max
                 if(statSet.length > 2){
                     this[statSet[2]] = Math.min(this[statSet[2]], this[statSet[0]])
