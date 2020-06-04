@@ -207,11 +207,33 @@ class Unit extends Phaser.GameObjects.Sprite{
     }
     //Runs to fight whatever unit is opponent
     combat(opponent){
-        //play a sound!
+        //play sounds!
         //inline random grunt maker by Ian
         let soundToPlay = Phaser.Math.RND.pick([...Array(6)].map((_, i) => "grunt"+(i+1)));
         this.scene.sound.play(soundToPlay);
         console.log(soundToPlay);
+        //play sound of attacker and attackie
+        if (this.isAlly) {
+            //play ally attack sound and enemy hit sound
+            this.scene.sound.play("flubershuble");
+            if (this.name = "Tank") {
+                this.scene.sound.play("tankAttack");
+            }
+            else if (this.name = "Wizard") {
+                this.scene.sound.play("WizardAttack");
+            }
+        }
+        else {
+            //play enemy attack sound and ally hit sound
+            this.scene.sound.play("enemyAttackNoise");
+            if (opponent.name = "Tank") {
+                this.scene.sound.play("tankAttack");
+            }
+            else if (opponent.name = "Wizard") {
+                this.scene.sound.play("WizardAttack");
+            }
+        }
+
         //Need to store damage separately to not affect calculations
         let healthChange = opponent.strength * opponent.currentHealth / opponent.health/ 
                 (this.strength * this.currentHealth/this.health) * 25;
@@ -231,5 +253,8 @@ class Unit extends Phaser.GameObjects.Sprite{
             this.warp = Math.round(this.warp + (this.tile.properties.warpLevel - this.warp)/3);
         else if (this.tile.properties.warpLevel < this.warp)
             this.tile.properties.warpLevel = Math.round(this.tile.properties.warpLevel + (this.warp - this.tile.properties.warpLevel)/3);
+    }
+    isAlly() {
+        return null;
     }
 }
