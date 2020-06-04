@@ -99,19 +99,19 @@ class Play extends Phaser.Scene {
             //Need to get the tiles for the actually important layer when spawning
             if(element.index == 15)
                 this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, 
-                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false))
+                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false), "Warpsoul")
             else if (element.index == 14)
                 this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50))
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50), "Wizard")
             else if (element.index == 13) 
                 this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200))              
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200), "Tank")              
         });
         ///////////////
         //test enemy
         ////////////////
         this.enemies.add(new Enemy(this, 0, 0, Phaser.Math.RND.pick(["tempWizard","tempTank"]), 0, 2, 
-                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true));
+                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true), "Warped Wizard");
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         

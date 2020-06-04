@@ -1,8 +1,8 @@
 class Unit extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, frame, movement, tile, strength, health, warp){
+    constructor(scene, x, y, texture, frame, movement, tile, strength, health, warp, name){
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
-        this.name = texture;
+        this.name = name;
         this.movement = movement;
         this.tile = tile;
         this.remainingMovement = movement;

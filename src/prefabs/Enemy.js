@@ -1,7 +1,6 @@
 class Enemy extends Unit{
-    constructor(scene, x, y, texture, frame, movement, tile, strength, health, canMove){
-        super(scene, x, y, texture, frame, movement, tile, strength, health, 75);
-        this.name = texture.slice(5);
+    constructor(scene, x, y, texture, frame, movement, tile, strength, health, canMove, name){
+        super(scene, x, y, texture, frame, movement, tile, strength, health, 75, name);
         this.canMove = canMove;
         
         this.target = null;
