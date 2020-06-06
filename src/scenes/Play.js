@@ -34,8 +34,8 @@ class Play extends Phaser.Scene {
         this.tileset = this.map.addTilesetImage("allTilesv2", "tiles")
 
         //make the layers
-        this.backgroundLayer = this.map.createStaticLayer("Background", this.tileset, 0,0);
-        this.terrainLayer = this.map.createStaticLayer("Map", this.tileset, 0,0);
+        this.backgroundLayer = this.map.createDynamicLayer("Background", this.tileset, 0,0);
+        this.terrainLayer = this.map.createDynamicLayer("Map", this.tileset, 0,0);
         this.enemyLayer = this.map.createStaticLayer("Enimies", this.tileset, 0,0);
 
         //statsheet implementation
@@ -70,11 +70,11 @@ class Play extends Phaser.Scene {
             fixedWidth: 0
         }
         //stattext
-        this.nameText = this.add.text(800, 20, 'Name', statConfig1).setOrigin(.5,0);
-        this.moveText = this.add.text(720, 100, 'Movement: X/X', statConfig2);
-        this.healthText = this.add.text(720, 140, 'Health: X/X', statConfig2);
-        this.powerText = this.add.text(720, 180, 'Power: X', statConfig2);
-        this.distText = this.add.text(720, 220, 'Distortion: X/X', statConfig2);
+        this.nameText = this.add.text(780, 20, 'Name', statConfig1).setOrigin(.5,0);
+        this.moveText = this.add.text(700, 100, 'Movement: X/X', statConfig2);
+        this.healthText = this.add.text(700, 140, 'Health: X/X', statConfig2);
+        this.powerText = this.add.text(700, 180, 'Power: X', statConfig2);
+        this.distText = this.add.text(700, 220, 'Distortion: X/X', statConfig2);
 
         //Set the selected object to null initially since the player shouldn't have anything at the start
         this.selected = null;
@@ -99,19 +99,19 @@ class Play extends Phaser.Scene {
             //Need to get the tiles for the actually important layer when spawning
             if(element.index == 15)
                 this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, 
-                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false), "Warpsoul")
+                    this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false, "Warpsoul"))
             else if (element.index == 14)
                 this.allies.add(new Ally(this, 0, 0, "tempWizard", 0, 2, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50), "Wizard")
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 3, 50, "Wizard"))
             else if (element.index == 13) 
                 this.allies.add(new Ally(this, 0, 0, "tempTank", 0, 3, 
-                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200), "Tank")              
+                this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 200, "Tank"))              
         });
         ///////////////
         //test enemy
         ////////////////
         this.enemies.add(new Enemy(this, 0, 0, Phaser.Math.RND.pick(["tempWizard","tempTank"]), 0, 2, 
-                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true), "Warped Wizard");
+                this.map.getTileAt(8, 17, false, this.terrainLayer), 2, 150, true, "Warped Ally"));
         //Don't need to show the enemy's spawns
         this.enemyLayer.visible = false;
         
@@ -145,6 +145,49 @@ class Play extends Phaser.Scene {
 
         //Selection box
         this.selectionBox = this.add.rectangle(this.displayed.x, this.displayed.y, 32, 32).setStrokeStyle(2, "0xFFFF34");
+
+        //function to warp the stats of tiles, to be assigned to every tile
+        //Going to be pretty similar to the version for units
+        //Could be a *lot* similar, but if we add more tile properties later I want to futureproof it
+        let warpStats = function(){
+            //get a shorthand version of the tile's warp level
+            let warp = this.properties.warpLevel
+            this.statWarpArray.forEach((statSet)=>{
+                if(Math.random() * 100 <= warp){
+                    //if we've hit maximum warp value, warp relative to current value
+                    if(warp >= 99)
+                        this.properties[statSet[0]] += this.properties[statSet[0]]*(Math.random()-.5) * warp/100
+                    //otherwise warp relative to base value
+                    else
+                        this.properties[statSet[0]] = statSet[1] + statSet[1]*(Math.random()-.5) * warp/100
+                    //Regardless, need to make sure the decimal isn't too excessive
+                    this.properties[statSet[0]] = Math.round(this.properties[statSet[0]] * 100)/100
+                }
+            })
+            //Also going to include changing of the tilemap image in here for efficiency
+            if(warp >= 50 && !this.warped){
+                this.warped = true
+                if(tileWarpMap.has(this.index)){
+                    this.index = tileWarpMap.get(this.index)
+                    //If we're warping this tile, and it's a tile with a background, change the background too
+                    //God this chain of references looks awful
+                    //I think this still winds up being shorter than not using a forEachTile method though
+                    this.layer.tilemapLayer.scene.backgroundLayer.forEachTile((backTile)=>{
+                        if(backTile.index != 0)
+                            backTile.index = tileWarpMap.get(backTile.index);
+                    }, this, this.x, this.y, 1, 1)
+                }
+            }
+        }
+
+
+        //Now we need to give this + the relevant array to every tile
+        this.terrainLayer.layer.data.forEach((subArray)=>{subArray.forEach((tile)=>{
+            console.log(tile)
+            tile.warpStats = warpStats;
+            tile.statWarpArray = [["movementCost", tile.properties.movementCost]]
+            tile.warped = false;
+        })});
     }
 
     update() {
@@ -168,7 +211,7 @@ class Play extends Phaser.Scene {
         this.moveText.text = "Movement: "+unit.remainingMovement+"/"+unit.movement;
         this.healthText.text = "Health: "+unit.currentHealth+"/"+unit.health;
         this.powerText.text = "Power: "+unit.strength;
-        this.distText.text = "Distortion: " + unit.warp + "/" + 100;
+        this.distText.text = "Warp: " + unit.warp + "/" + 100;
     }
 
     //Resets the displayed stats to what they were at the start of the game if there's no selected unit
@@ -177,7 +220,7 @@ class Play extends Phaser.Scene {
         this.moveText.text = 'Movement: X/X';
         this.healthText.text =  'Health: X/X';
         this.powerText.text =  'Power: X'
-        this.distText.text ="Distortion: X/X";
+        this.distText.text ="Warp: X/X";
 
     }
 
@@ -188,6 +231,7 @@ class Play extends Phaser.Scene {
             if(unit.remainingMovement == unit.movement)
                 unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
             unit.remainingMovement = unit.movement;
+            unit.warpStats()
         });
         this.enemies.getChildren().forEach((unit)=>{
             unit.balanceWarp()
@@ -204,7 +248,14 @@ class Play extends Phaser.Scene {
             else {
                 unit.attackAdjacent();
             }
+            unit.warpStats()
         });
+
+        //Go through and warp all the tiles
+        this.terrainLayer.layer.data.forEach((subArray)=>{subArray.forEach((tile)=>{
+            tile.warpStats()
+        })});
+
 
         // this.enemies.getChildren().forEach((unit)=>{
         //     unit.balanceWarp()

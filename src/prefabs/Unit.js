@@ -28,6 +28,11 @@ class Unit extends Phaser.GameObjects.Sprite{
             }
         });
         this.tile.properties.occupant = this;
+
+        //Array to handle modification of stats
+        //Third value for each is for dependant stats, not all have them
+        this.statsWarp = [["movement", this.movement, "remainingMovement"]
+            ,["strength", this.strength],["health", this.health, "currentHealth"]];
     }
 
     //Moves to a target tile
@@ -253,6 +258,27 @@ class Unit extends Phaser.GameObjects.Sprite{
             this.warp = Math.round(this.warp + (this.tile.properties.warpLevel - this.warp)/3);
         else if (this.tile.properties.warpLevel < this.warp)
             this.tile.properties.warpLevel = Math.round(this.tile.properties.warpLevel + (this.warp - this.tile.properties.warpLevel)/3);
+    }
+
+    //Handles warping of stats.
+    warpStats(){
+        //debugger;
+        this.statsWarp.forEach((statSet)=>{
+            if(Math.random() * 100 <= this.warp){
+                //if we've hit maximum warp value, warp relative to current value
+                if(this.warp >= 99)
+                    this[statSet[0]] += this[statSet[0]]*(Math.random()-.5) * this.warp/100
+                //otherwise warp relative to base value
+                else
+                    this[statSet[0]] = statSet[1] + statSet[1]*(Math.random()-.5) * this.warp/100
+                //Regardless, need to make sure the decimal isn't too excessive
+                this[statSet[0]] = Math.round(this[statSet[0]] * 100)/100
+                //If this is movement or health, need to make sure the current value of each isn't greater than the new max
+                if(statSet.length > 2){
+                    this[statSet[2]] = Math.min(this[statSet[2]], this[statSet[0]])
+                }
+            }
+        })
     }
     isAlly() {
         return null;
