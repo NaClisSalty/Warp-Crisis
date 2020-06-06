@@ -175,7 +175,8 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Another helper function for moving
     //This one is separate in case we want to use the above for moving without paying cost
-    moveTo(destination){
+    moveTo(destinationList, delay, index){
+        let destination = destinationList[index];
         //Check to see if anyone is there
         if(destination.properties.occupant != undefined){
             //if it's not us
@@ -184,20 +185,22 @@ class Unit extends Phaser.GameObjects.Sprite{
                 this.combat(destination.properties.occupant)
                 //If it's not dead, stop moving and pay movement costs
                 if(destination.properties.occupant != undefined){
+                    this.changeTile(destination);
                     this.remainingMovement -= destination.properties.movementCost;
                     this.remainingMovement = Math.max(0, this.remainingMovement);
-                    return;
+                    return true;
                 }
             }
             //if it's not our enemy, stop moving
             else
-                return;
+                return false;
         }
         this.changeTile(destination);
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
         if(this.scene.displayed != null)
             this.scene.setStatWindow(this.scene.displayed)
+        return true;
     }
 
     //Have to make my own method to find + remove least value from a set because modules don't like working
@@ -282,5 +285,27 @@ class Unit extends Phaser.GameObjects.Sprite{
     }
     isAlly() {
         return null;
+    }
+
+    //Function to make tweened movement from one box to the next
+    tweenMovement(destinationList, delay, index){
+        let destination = destinationList[index];
+        this.remainingMovement -= destination.properties.movementCost;
+        this.remainingMovement = Math.max(0, this.remainingMovement);
+        let movementTween = scene.tweens.add({
+            targets: this,
+            x: {from: this.x, to: destination.x},
+            y: {from: this.y, to: destination.y},
+            duration: .25,
+            delay: delay,
+            onComplete: (tween, targets, destinationList, delay, index)=>{
+                this.changeTile(destination);
+                if (index != destinationList.length && this.remainingMovement > 0)
+                    this.moveTo(destinationList, delay +.25, index+1)
+            },
+            onCompleteParams: [destinationList, delay, index]
+        })
+        if(this.scene.displayed != null)
+            this.scene.setStatWindow(this.scene.displayed)
     }
 }
