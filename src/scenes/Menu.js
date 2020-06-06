@@ -8,6 +8,8 @@ class Menu extends Phaser.Scene {
         this.load.audio('folk', 'folk.mp3');
 
         this.load.image('menu', 'Warp_menu.png');
+
+        this.load.image('UI', 'UI.png');
     }
 
     create() {

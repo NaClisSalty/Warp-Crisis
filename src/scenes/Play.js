@@ -38,6 +38,10 @@ class Play extends Phaser.Scene {
         this.terrainLayer = this.map.createDynamicLayer("Map", this.tileset, 0,0);
         this.enemyLayer = this.map.createStaticLayer("Enimies", this.tileset, 0,0);
 
+        //add ui
+        this.add.image(640,0, 'UI').setOrigin(0,0);
+
+
         //statsheet implementation
         //menu display
         let statConfig1 = {
