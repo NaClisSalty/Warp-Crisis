@@ -167,7 +167,7 @@ class Enemy extends Unit{
             return;
         //If the target is right next to us just go there
         if(this.scene.checkAdjacency(this.tile, target)){
-            this.moveTo(target)
+            this.moveTo([target], 0, 0)
         }
         //Otherwise, do the pathfinding thing
         //Except that we don't for now because it's all broken
@@ -176,10 +176,11 @@ class Enemy extends Unit{
             //Passing in the tileMap as a param because it's just shorter
             let path = this.AStar(target, this.scene.map);
             //Keep moving until we can't any more
-            while(this.remainingMovement > 0 && path.length != 0){
+            this.moveTo(path, 0, 0)
+            /*while(this.remainingMovement > 0 && path.length != 0){
                 let nextTile = path.shift();
                 this.moveTo(nextTile);
-            }
+            }*/
             //We should now be as close to the target as we could have gotten
         }
     }
