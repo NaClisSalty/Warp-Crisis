@@ -196,6 +196,7 @@ class Play extends Phaser.Scene {
         //tile we are hovering (to show the path of a selected unit)
         this.tileHovered = null;
         this.selectedPath = null;
+        this.selectedMovePath = this.add.graphics();
     }
 
     update() {
