@@ -185,19 +185,20 @@ class Unit extends Phaser.GameObjects.Sprite{
                 this.combat(destination.properties.occupant)
                 //If it's not dead, stop moving and pay movement costs
                 if(destination.properties.occupant != undefined){
-                    this.changeTile(destination);
-                    this.remainingMovement -= destination.properties.movementCost;
-                    this.remainingMovement = Math.max(0, this.remainingMovement);
-                    return true;
+                    // this.changeTile(destination);
+                    // this.remainingMovement -= destination.properties.movementCost;
+                    // this.remainingMovement = Math.max(0, this.remainingMovement);
+                    this.tweenMovement(destinationList, delay, index)
                 }
             }
             //if it's not our enemy, stop moving
             else
                 return false;
         }
-        this.changeTile(destination);
+        /*this.changeTile(destination);
         this.remainingMovement -= destination.properties.movementCost;
-        this.remainingMovement = Math.max(0, this.remainingMovement);
+        this.remainingMovement = Math.max(0, this.remainingMovement);*/
+        this.tweenMovement(destinationList, delay, index)
         if(this.scene.displayed != null)
             this.scene.setStatWindow(this.scene.displayed)
         return true;
@@ -289,7 +290,7 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Function to make tweened movement from one box to the next
     tweenMovement(destinationList, delay, index){
-       // debugger;
+        debugger;
         let destination = destinationList[index];
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
