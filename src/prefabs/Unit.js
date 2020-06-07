@@ -166,7 +166,6 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Helper function for moving tiles
     changeTile(destination){
-        debugger;
         this.tile.properties.occupant = undefined
         this.tile = destination;
         this.tile.properties.occupant = this
@@ -188,6 +187,7 @@ class Unit extends Phaser.GameObjects.Sprite{
                 if(destination.properties.occupant != undefined){
                     this.remainingMovement -= destination.properties.movementCost;
                     this.remainingMovement = Math.max(0, this.remainingMovement);
+                    this.attackTween(destination);
                     //this.tweenMovement(destinationList, delay, index)
                     return true;
                 }
@@ -295,11 +295,14 @@ class Unit extends Phaser.GameObjects.Sprite{
         let destination = destinationList[index];
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
+        console.log(destination)
+        console.log(this.scene.map)
+        console.log(this.scene.map.tileToWorldX(destination) + " " + this.scene.map.tileToWorldY(destination))
         let movementTween = this.scene.tweens.add({
             targets: this,
-            x: {from: this.x, to: destination.x},
-            y: {from: this.y, to: destination.y},
-            duration: .25,
+            x: {from: this.x, to: destination.getCenterX()},
+            y: {from: this.y, to: destination.getCenterY()},
+            duration: 100,
             delay: delay,
             onComplete: (tween, targets, destinationList, delay, index)=>{
                 this.changeTile(destinationList[index]);
@@ -310,5 +313,16 @@ class Unit extends Phaser.GameObjects.Sprite{
         })
         if(this.scene.displayed != null)
             this.scene.setStatWindow(this.scene.displayed)
+    }
+
+    //Tween for attacking and recoiling from an attack
+    attackTween(destination){
+        let attackTween = this.scene.tweens.add({
+            targets: this,
+            x: {from: this.x, to: ((destination.getCenterX()-this.x)/2 + this.x)},
+            y: {from: this.y, to: ((destination.getCenterY()-this.y)/2 + this.y)},
+            duration: 35,
+            yoyo: true,
+        })
     }
 }
