@@ -234,7 +234,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         }
         else {
             //play enemy attack sound and ally hit sound
-            this.scene.sound.play("enemyAttackNoise");
+            this.scene.sound.play("enemyAttack");
             if (opponent.name = "Tank") {
                 this.scene.sound.play("tankAttack");
             }
