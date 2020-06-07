@@ -22,7 +22,7 @@ class Play extends Phaser.Scene {
         this.load.audio('grunt5', 'grunt5.mp3');
         this.load.audio('grunt6', 'grunt6.mp3');
         this.load.audio('movementSound', 'movement.mp3');
-        this.load.audio('robotAttack', 'robotAttack.mp3');
+        this.load.audio('tankAttack', 'robotAttack.mp3');
         this.load.audio('wizardAttack', 'wizardAttack.mp3');
     } 
 
