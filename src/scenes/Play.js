@@ -233,6 +233,11 @@ class Play extends Phaser.Scene {
             }
         }
         this.tileHovered = this.map.getTileAtWorldXY(game.input.mousePointer.x,game.input.mousePointer.y);
+
+        //Make sure the selection box follows selected
+        if(this.selectionBox.visible){
+            this.selectionBox.setPosition(this.selected.x, this.selected.y)
+        }
     }
     _onFocus() {
         this.paused = false;
