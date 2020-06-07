@@ -290,11 +290,11 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Function to make tweened movement from one box to the next
     tweenMovement(destinationList, delay, index){
-        debugger;
+        //debugger;
         let destination = destinationList[index];
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
-        let movementTween = scene.tweens.add({
+        let movementTween = this.scene.tweens.add({
             targets: this,
             x: {from: this.x, to: destination.x},
             y: {from: this.y, to: destination.y},
