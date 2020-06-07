@@ -123,6 +123,8 @@ class Enemy extends Unit{
     checkDeath(){
         //console.log(this.currentHealth);
         if(this.currentHealth <= 0){
+            //play my death sound
+            this.scene.sound.play("enemyDeath");
             this.tile.properties.occupant = undefined;
             //this.scene.enemiesActive.remove(this, true, true);
             this.scene.enemies.remove(this, true, true);

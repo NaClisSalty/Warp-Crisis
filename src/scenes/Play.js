@@ -13,7 +13,8 @@ class Play extends Phaser.Scene {
         this.load.image("tempTank", "robo_character.png")
 
         this.load.audio('enemyAttack', 'enemyAttackNoise.mp3');
-        this.load.audio('weird', 'flubershuble.mp3');
+        this.load.audio('enemyDeath', 'enemyDeathNoise.mp3');
+        this.load.audio('flubershuble', 'flubershuble.mp3');
         this.load.audio('grunt1', 'grunt.mp3');
         this.load.audio('grunt2', 'grunt2.mp3');
         this.load.audio('grunt3', 'grunt3.mp3');
@@ -196,7 +197,7 @@ class Play extends Phaser.Scene {
         //tile we are hovering (to show the path of a selected unit)
         this.tileHovered = null;
         this.selectedPath = null;
-        this.selectedMovePath = this.add.graphics();
+        this.selectedPathGraphic = this.add.graphics();
     }
 
     update() {
@@ -207,24 +208,26 @@ class Play extends Phaser.Scene {
                     this.tileHovered = this.map.getTileAtWorldXY(game.input.mousePointer.x,game.input.mousePointer.y);
                     //make sure we dont trigger on our own tile (that casues an infinite loop D:)
                     if (this.selectedPath == null && this.tileHovered != this.selected.tile) {
-                        this.selectedMovePath.clear();
-                        this.selectedMovePath.lineStyle(3, 0x000000, 1);
+                        this.selectedPathGraphic.clear();
+                        this.selectedPathGraphic.lineStyle(3, 0x000000, 1);
                         this.selectedPath = this.selected.AStar(this.tileHovered,this.map);
                         if (this.selectedPath != null) {
-                            
+                            //this line restricts the display, making it only show path lines equal to how far the unit can move
+                            this.selectedPath = this.selectedPath.slice(0,this.selected.remainingMovement);
+                            //add the sellected units tile to the list of tiles to draw a path through
+                            this.selectedPath.unshift(this.selected.tile);
                             for (var i = 0; i < this.selectedPath.length-1;i++) {
-                                this.selectedMovePath.lineBetween(
+                                this.selectedPathGraphic.lineBetween(
                                     this.map.tileToWorldX(this.selectedPath[i].x)+16,
                                     this.map.tileToWorldY(this.selectedPath[i].y)+16,
                                     this.map.tileToWorldX(this.selectedPath[i+1].x)+16,
-                                    this.map.tileToWorldY(this.selectedPath[i+1].y)+16)
+                                    this.map.tileToWorldY(this.selectedPath[i+1].y)+16);
                             }
-                            console.log("draw path from ", this.tileHovered.x, ",", this.tileHovered.y);
+                            //console.log("draw path from ", this.tileHovered.x, ",", this.tileHovered.y);
                         }
                         //console.log(this.selectedPath);
                         this.selectedPath = null;
                     }
-
                     //console.log(this.tileHovered.x, ",", this.tileHovered.y);
                 }
             }
