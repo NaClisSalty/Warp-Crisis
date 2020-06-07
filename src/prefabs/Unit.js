@@ -182,7 +182,8 @@ class Unit extends Phaser.GameObjects.Sprite{
             //if it's not us
             if(destination.properties.occupant.isAlly()!= this.isAlly()){
                 //Fight it
-                this.combat(destination.properties.occupant)
+                if(this.combat(destination.properties.occupant))
+                    return false
                 //If it's not dead, stop moving and pay movement costs
                 if(destination.properties.occupant != undefined){
                     this.remainingMovement -= destination.properties.movementCost;
