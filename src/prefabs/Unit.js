@@ -166,6 +166,7 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Helper function for moving tiles
     changeTile(destination){
+        debugger;
         this.tile.properties.occupant = undefined
         this.tile = destination;
         this.tile.properties.occupant = this
@@ -185,10 +186,10 @@ class Unit extends Phaser.GameObjects.Sprite{
                 this.combat(destination.properties.occupant)
                 //If it's not dead, stop moving and pay movement costs
                 if(destination.properties.occupant != undefined){
-                    // this.changeTile(destination);
-                    // this.remainingMovement -= destination.properties.movementCost;
-                    // this.remainingMovement = Math.max(0, this.remainingMovement);
-                    this.tweenMovement(destinationList, delay, index)
+                    this.remainingMovement -= destination.properties.movementCost;
+                    this.remainingMovement = Math.max(0, this.remainingMovement);
+                    //this.tweenMovement(destinationList, delay, index)
+                    return true;
                 }
             }
             //if it's not our enemy, stop moving
@@ -301,7 +302,7 @@ class Unit extends Phaser.GameObjects.Sprite{
             duration: .25,
             delay: delay,
             onComplete: (tween, targets, destinationList, delay, index)=>{
-                this.changeTile(destination);
+                this.changeTile(destinationList[index]);
                 if (++index != destinationList.length && this.remainingMovement > 0)
                     this.moveTo(destinationList, delay +.25, index)
             },
