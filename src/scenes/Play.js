@@ -187,15 +187,49 @@ class Play extends Phaser.Scene {
 
         //Now we need to give this + the relevant array to every tile
         this.terrainLayer.layer.data.forEach((subArray)=>{subArray.forEach((tile)=>{
-            console.log(tile)
+            //console.log(tile)
             tile.warpStats = warpStats;
             tile.statWarpArray = [["movementCost", tile.properties.movementCost]]
             tile.warped = false;
         })});
+
+        //tile we are hovering (to show the path of a selected unit)
+        this.tileHovered = null;
+        this.selectedPath = null;
+        this.selectedMovePath = this.add.graphics();
     }
 
     update() {
-       game.input.mousePointer.x
+        //have we hovered a new tile with a unit selected
+        if(this.selected != null) {
+            if (this.tileHovered != null && this.map.getTileAtWorldXY(game.input.mousePointer.x,game.input.mousePointer.y) != null) {
+                if (this.tileHovered != this.map.getTileAtWorldXY(game.input.mousePointer.x,game.input.mousePointer.y)) {
+                    this.tileHovered = this.map.getTileAtWorldXY(game.input.mousePointer.x,game.input.mousePointer.y);
+                    //make sure we dont trigger on our own tile (that casues an infinite loop D:)
+                    if (this.selectedPath == null && this.tileHovered != this.selected.tile) {
+                        this.selectedMovePath.clear();
+                        this.selectedMovePath.lineStyle(3, 0x000000, 1);
+                        this.selectedPath = this.selected.AStar(this.tileHovered,this.map);
+                        if (this.selectedPath != null) {
+                            
+                            for (var i = 0; i < this.selectedPath.length-1;i++) {
+                                this.selectedMovePath.lineBetween(
+                                    this.map.tileToWorldX(this.selectedPath[i].x)+16,
+                                    this.map.tileToWorldY(this.selectedPath[i].y)+16,
+                                    this.map.tileToWorldX(this.selectedPath[i+1].x)+16,
+                                    this.map.tileToWorldY(this.selectedPath[i+1].y)+16)
+                            }
+                            console.log("draw path from ", this.tileHovered.x, ",", this.tileHovered.y);
+                        }
+                        //console.log(this.selectedPath);
+                        this.selectedPath = null;
+                    }
+
+                    //console.log(this.tileHovered.x, ",", this.tileHovered.y);
+                }
+            }
+        }
+        this.tileHovered = this.map.getTileAtWorldXY(game.input.mousePointer.x,game.input.mousePointer.y);
     }
     _onFocus() {
         this.paused = false;
