@@ -51,7 +51,7 @@ class Unit extends Phaser.GameObjects.Sprite{
         //If the target is right next to us just go there
         if(this.scene.checkAdjacency(this.tile, target)){
             
-            this.moveTo(target)
+            this.moveTo([target], 0, 0)
         }
         //Otherwise, do the pathfinding thing
         //Except that we don't for now because it's all broken
@@ -61,11 +61,11 @@ class Unit extends Phaser.GameObjects.Sprite{
             //Passing in the tileMap as a param because it's just shorter
             let path = this.AStar(target, this.scene.map);
             //Keep moving until we can't any more
-
-            while(this.remainingMovement > 0 && path.length != 0){
+            this.moveTo(path, 0, 0)
+            /*while(this.remainingMovement > 0 && path.length != 0){
                 let nextTile = path.shift();
                 this.moveTo(nextTile);
-            }
+            }*/
             //We should now be as close to the target as we could have gotten
         }
         if(this.scene.selected = this){
@@ -300,8 +300,8 @@ class Unit extends Phaser.GameObjects.Sprite{
             delay: delay,
             onComplete: (tween, targets, destinationList, delay, index)=>{
                 this.changeTile(destination);
-                if (index != destinationList.length && this.remainingMovement > 0)
-                    this.moveTo(destinationList, delay +.25, index+1)
+                if (++index != destinationList.length && this.remainingMovement > 0)
+                    this.moveTo(destinationList, delay +.25, index)
             },
             onCompleteParams: [destinationList, delay, index]
         })
