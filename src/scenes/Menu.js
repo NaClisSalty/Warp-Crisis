@@ -50,9 +50,26 @@ class Menu extends Phaser.Scene {
         this.folk.play();
         this.folk.setVolume(.2);
 
-        let playButton = this.add.rectangle(481, 354, 290, 122, 0x000000, 0).setInteractive({ useHandCursor: true }).on('pointerup', () => {this.scene.start("playScene")});
-        let instructionButton = this.add.rectangle(200, 515, 290, 122, 0x000000, 0).setInteractive({ useHandCursor: true }).on('pointerup', () => {this.scene.start("instructionsScene")});
-        let creditsButton = this.add.rectangle(772, 515, 290, 122, 0x000000, 0).setInteractive({ useHandCursor: true }).on('pointerup', () => {this.scene.start("creditsScene")});
+        let playButton = this.add.rectangle(481, 354, 290, 122, 0x000000, 0)
+        .setInteractive({ useHandCursor: true })
+        .on('pointerup', () => {
+            this.scene.start("playScene");
+            this.folk.stop();
+        });
+
+        let instructionButton = this.add.rectangle(200, 515, 290, 122, 0x000000, 0)
+        .setInteractive({ useHandCursor: true })
+        .on('pointerup', () => {
+            this.scene.start("instructionsScene");
+            this.folk.stop();
+        });
+
+        let creditsButton = this.add.rectangle(772, 515, 290, 122, 0x000000, 0)
+        .setInteractive({ useHandCursor: true })
+        .on('pointerup', () => {
+            this.scene.start("creditsScene");
+            this.folk.stop();
+        });
 
     }
 
