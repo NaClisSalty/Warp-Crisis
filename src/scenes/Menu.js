@@ -10,6 +10,8 @@ class Menu extends Phaser.Scene {
         this.load.image('menu', 'Warp_menu.png');
 
         this.load.image('UI', 'UI.png');
+        this.load.atlas('Buttons', 'BUTTONS.png', "buttons.json");
+        this.load.image("Back", "backButton.png")
     }
 
     create() {

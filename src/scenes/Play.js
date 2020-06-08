@@ -102,6 +102,7 @@ class Play extends Phaser.Scene {
         this.map.setLayer(this.terrainLayer)
         this.spawns.forEach(element => {
             //Need to get the tiles for the actually important layer when spawning
+            //These indexes should be incorrect now, but for some reason the code still works, so don't change them
             if(element.index == 15)
                 this.enemies.add(new Enemy(this, 0, 0, "enemyWarpsoul", 0, 2, 
                     this.map.getTileAt(element.x, element.y, false, this.terrainLayer), 2, 50,false, "Warpsoul"))
