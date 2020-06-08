@@ -68,7 +68,7 @@ class Unit extends Phaser.GameObjects.Sprite{
             }*/
             //We should now be as close to the target as we could have gotten
         }
-        if(this.scene.selected = this){
+        if(this.scene != undefined && this.scene.selected == this){
             this.scene.selectionBox.setPosition(this.x, this.y)
         }
         
@@ -188,6 +188,7 @@ class Unit extends Phaser.GameObjects.Sprite{
                 if(destination.properties.occupant != undefined){
                     this.remainingMovement -= destination.properties.movementCost;
                     this.remainingMovement = Math.max(0, this.remainingMovement);
+                    this.remainingMovement = Math.round(this.remainingMovement*100)/100
                     this.attackTween(destination);
                     //this.tweenMovement(destinationList, delay, index)
                     return true;
@@ -294,13 +295,10 @@ class Unit extends Phaser.GameObjects.Sprite{
 
     //Function to make tweened movement from one box to the next
     tweenMovement(destinationList, delay, index){
-        //debugger;
         let destination = destinationList[index];
         this.remainingMovement -= destination.properties.movementCost;
         this.remainingMovement = Math.max(0, this.remainingMovement);
-        console.log(destination)
-        console.log(this.scene.map)
-        console.log(this.scene.map.tileToWorldX(destination) + " " + this.scene.map.tileToWorldY(destination))
+        this.remainingMovement = Math.round(this.remainingMovement*100)/100
         let movementTween = this.scene.tweens.add({
             targets: this,
             x: {from: this.x, to: destination.getCenterX()},

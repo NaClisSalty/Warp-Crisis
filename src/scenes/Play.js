@@ -136,7 +136,7 @@ class Play extends Phaser.Scene {
         })
 
         //End turn button
-        this.clickButton = this.add.text(800, 600, 'End Turn', {fill: '#d437bc'})
+        this.clickButton = this.add.text(770, 600, 'End Turn', {fill: '#d437bc'})
         .setInteractive({ useHandCursor: true })
         .on('pointerdown', () => {
             this.endTurn()
@@ -150,6 +150,9 @@ class Play extends Phaser.Scene {
 
         //Selection box
         this.selectionBox = this.add.rectangle(this.displayed.x, this.displayed.y, 32, 32).setStrokeStyle(2, "0xFFFF34");
+
+        //This array will end the game if it's empty (contains all max-warp tiles)
+        this.warpedGroup = []
 
         //function to warp the stats of tiles, to be assigned to every tile
         //Going to be pretty similar to the version for units
@@ -192,6 +195,8 @@ class Play extends Phaser.Scene {
             tile.warpStats = warpStats;
             tile.statWarpArray = [["movementCost", tile.properties.movementCost]]
             tile.warped = false;
+            if(tile.index == 6)
+                this.warpedGroup.push(tile);
         })});
 
         //tile we are hovering (to show the path of a selected unit)
@@ -238,6 +243,14 @@ class Play extends Phaser.Scene {
         if(this.selectionBox.visible){
             this.selectionBox.setPosition(this.selected.x, this.selected.y)
         }
+
+        //Check if the player has cleared the map
+        if(this.warpedGroup.length == 0)
+            this.scene.start("winScene")
+
+        //Check if all the player units are dead
+        if(this.allies.getLength() == 0)
+            this.scene.start("loseScene")
     }
     _onFocus() {
         this.paused = false;

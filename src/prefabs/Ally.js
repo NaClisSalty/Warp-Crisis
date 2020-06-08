@@ -27,4 +27,13 @@ class Ally extends Unit{
     isAlly(){
         return true
     }
+    
+    //Function to clear warp tiles
+    clearWarp(){
+        if(this.tile.index == 6){
+            this.tile.properties.warpLevel = 1
+            this.tile.index == 0
+            this.scene.warpedGroup.remove(this)
+        }
+    }
 }
