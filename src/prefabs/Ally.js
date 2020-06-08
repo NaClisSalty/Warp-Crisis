@@ -32,7 +32,7 @@ class Ally extends Unit{
     clearWarp(){
         if(this.tile.index == 6){
             this.tile.properties.warpLevel = 1
-            this.tile.index == 0
+            this.tile.index = 1
             this.scene.warpedGroup.splice(this.scene.warpedGroup.indexOf(this), 1)
         }
     }
