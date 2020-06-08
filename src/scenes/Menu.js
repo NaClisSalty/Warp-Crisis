@@ -54,7 +54,7 @@ class Menu extends Phaser.Scene {
         .setInteractive({ useHandCursor: true })
         .on('pointerup', () => {
             this.scene.start("playScene");
-            this.folk.stop();
+            //this.folk.stop();
         });
 
         let instructionButton = this.add.rectangle(200, 515, 290, 122, 0x000000, 0)
