@@ -5,6 +5,7 @@ class Play extends Phaser.Scene {
 
     preload() {
         this.load.path = './Assets/'
+        this.add.image(0,0,"loading").setOrigin(0)
         this.load.image("tiles", "allTiles_v2.png");
         this.load.tilemapTiledJSON("mapjson", "tileMap_v07.json")
 

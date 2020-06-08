@@ -5,6 +5,7 @@ class Credits extends Phaser.Scene {
 
     preload(){
         this.load.path = './Assets/'
+        this.add.image(0,0,"loading").setOrigin(0)
         this.load.image("CreditsImage", "Credits.png")
         this.load.image("backButton.png")
     }

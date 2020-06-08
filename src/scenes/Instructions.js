@@ -5,6 +5,7 @@ class Instructions extends Phaser.Scene {
 
     preload(){
         this.load.path = './Assets/'
+        this.add.image(0,0,"loading").setOrigin(0)
         this.load.image("InstructionImage", "instructions_menu.png")
         this.load.image("backButton.png")
     }

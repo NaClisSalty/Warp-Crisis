@@ -1,10 +1,16 @@
 class Menu extends Phaser.Scene {
     constructor() {
-        super("menuScene");
+        super({key: "menuScene",
+        pack: {
+            files: [
+                { type: 'image', key: 'loading', url: './Assets/loading_screen.png' }
+            ]
+        }});
     }
+
     preload() {
         this.load.path = './Assets/'
-
+        this.add.image(0,0,"loading").setOrigin(0)
         this.load.audio('folk', 'folk.mp3');
 
         this.load.image('menu', 'Warp_menu.png');
@@ -15,7 +21,6 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        
         let centerX = game.config.width/2;
         let centerY = game.config.height/2;
         // this.clickButton = this.add.text(centerX-20, centerY, 'Play', {fill: '#d437bc'})
