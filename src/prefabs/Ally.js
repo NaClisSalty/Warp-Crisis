@@ -30,10 +30,15 @@ class Ally extends Unit{
     
     //Function to clear warp tiles
     clearWarp(){
-        if(this.tile.index == 6){
-            this.tile.properties.warpLevel = 1
-            this.tile.index = 1
+        this.tile.properties.warpLevel = 1
+        if(this.tile.index == 6)
             this.scene.warpedGroup.splice(this.scene.warpedGroup.indexOf(this), 1)
+        if(unwarpMap.has(this.tile.index)){
+            this.tile.index = unwarpMap.get(this.tile.index)
+            this.scene.backgroundLayer.forEachTile((backTile)=>{
+                if(unwarpMap.has(backTile.index))
+                    backTile.index = unwarpMap.get(backTile.index);
+            }, this, this.x, this.y, 1, 1)
         }
     }
 }
