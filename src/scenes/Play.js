@@ -138,17 +138,39 @@ class Play extends Phaser.Scene {
         })
 
         //End turn button
-        this.clickButton = this.add.text(770, 600, 'End Turn', {fill: '#d437bc'})
+        // this.clickButton = this.add.text(770, 600, 'End Turn', {fill: '#d437bc'})
+        // .setInteractive({ useHandCursor: true })
+        // .on('pointerdown', () => {
+        //     this.endTurn()
+        // });
+        //buttons
+        this.clearWarpButton = this.add.sprite(638, 378, "Buttons","ClearWarpButton").setOrigin(0)
         .setInteractive({ useHandCursor: true })
-        .on('pointerdown', () => {
-            this.endTurn()
+        .setDisplaySize(322,100);
+        this.clearWarpButton.on('pointerdown', () => {
+            this.selected.clearWarp()
+            this.clearWarpButton.setTexture("Buttons","PressedClearWarpButton");
+        }).on('pointerup', () => {
+            this.clearWarpButton.setTexture("Buttons","ClearWarpButton");
         });
+
+        this.endTurnButton = this.add.sprite(638, 480, "Buttons","EndTurnButton").setOrigin(0)
+        .setInteractive({ useHandCursor: true })
+        .setDisplaySize(322,100);
+        this.endTurnButton.on('pointerdown', () => {
+            this.endTurn();
+            this.endTurnButton.setTexture("Buttons","PressedEndTurnButton");
+        }).on('pointerup', () => {
+            this.endTurnButton.setTexture("Buttons","EndTurnButton");
+        });
+
 
         
 
         //Start with a unit selected
         this.displayed = this.allies.getChildren()[0];
         this.selected = this.displayed
+        this.setStatWindow(this.selected);
 
         //Selection box
         this.selectionBox = this.add.rectangle(this.displayed.x, this.displayed.y, 32, 32).setStrokeStyle(2, "0xFFFF34");
@@ -220,7 +242,8 @@ class Play extends Phaser.Scene {
                         this.selectedPath = this.selected.AStar(this.tileHovered,this.map);
                         if (this.selectedPath != null) {
                             //this line restricts the display, making it only show path lines equal to how far the unit can move
-                            this.selectedPath = this.selectedPath.slice(0,this.selected.remainingMovement);
+                            //Math.ceil incase they have fractional movement
+                            this.selectedPath = this.selectedPath.slice(0,Math.ceil(this.selected.remainingMovement));
                             //add the sellected units tile to the list of tiles to draw a path through
                             this.selectedPath.unshift(this.selected.tile);
                             for (var i = 0; i < this.selectedPath.length-1;i++) {
