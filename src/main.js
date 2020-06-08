@@ -16,6 +16,3 @@ let tileWarpMap = new Map([[5, 7],[10, 11],[1, 4], [2, 9],[8, 3]])
 let unwarpMap = new Map([[7, 5],[11, 10],[4, 1], [9, 2],[3, 8], [6,1]])
 let game = new Phaser.Game(config);
 
-//define game settings
-game.settings = {
-}
