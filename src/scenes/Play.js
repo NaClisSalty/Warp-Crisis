@@ -136,7 +136,7 @@ class Play extends Phaser.Scene {
         })
 
         //End turn button
-        this.clickButton = this.add.text(800, 600, 'End Turn', {fill: '#d437bc'})
+        this.clickButton = this.add.text(770, 600, 'End Turn', {fill: '#d437bc'})
         .setInteractive({ useHandCursor: true })
         .on('pointerdown', () => {
             this.endTurn()
