@@ -313,9 +313,9 @@ class Play extends Phaser.Scene {
         this.allies.getChildren().forEach((unit)=>{
             unit.balanceWarp()
             if(unit.remainingMovement == unit.movement)
-                unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/50), unit.health);
-            unit.remainingMovement = unit.movement;
+                unit.currentHealth = Math.min(Math.round(unit.currentHealth + unit.health/25), unit.health);
             unit.warpStats()
+            unit.remainingMovement = unit.movement;
         });
         this.enemies.getChildren().forEach((unit)=>{
             unit.balanceWarp()
