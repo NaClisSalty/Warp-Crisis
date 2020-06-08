@@ -1,6 +1,6 @@
 class Lose extends Phaser.Scene {
     constructor() {
-        super("winScene");
+        super("loseScene");
     }
 
     preload(){
