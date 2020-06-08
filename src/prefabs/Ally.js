@@ -38,7 +38,7 @@ class Ally extends Unit{
             this.scene.backgroundLayer.forEachTile((backTile)=>{
                 if(unwarpMap.has(backTile.index))
                     backTile.index = unwarpMap.get(backTile.index);
-            }, this, this.x, this.y, 1, 1)
+            }, this, this.tile.x, this.tile.y, 1, 1)
         }
     }
 }
