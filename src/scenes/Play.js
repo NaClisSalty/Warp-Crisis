@@ -323,7 +323,6 @@ class Play extends Phaser.Scene {
         //this.enemies.getChildren().forEach((unit)=>{unit.attackAdjacent()})
         if(this.displayed!= null)
             this.setStatWindow(this.displayed)
-        //this.scene.start("loseScreen")
     }
 
 }

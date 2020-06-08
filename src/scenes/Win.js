@@ -4,6 +4,7 @@ class Win extends Phaser.Scene {
     }
 
     preload(){
+        this.load.path = './Assets/'
         this.load.image("Victory", "win_screen.png")
     }
 
