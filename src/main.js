@@ -6,7 +6,7 @@ let config = {
     width: 960,
     height: 640,
     backgroundColor: 0x02BBFF,
-    scene:[Menu, Play, Win, Lose],
+    scene:[Menu, Play, Win, Lose, Instructions, Credits],
     backgroundColor: 'rgba(255,110,110,0.5)',
     piexlArt: true,
 };
